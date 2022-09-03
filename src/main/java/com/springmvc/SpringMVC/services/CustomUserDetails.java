@@ -1,4 +1,4 @@
-package com.springmvc.SpringMVC.service;
+package com.springmvc.SpringMVC.services;
 
 import com.springmvc.SpringMVC.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;

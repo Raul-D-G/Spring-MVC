@@ -1,4 +1,4 @@
-package com.springmvc.SpringMVC;
+package com.springmvc.SpringMVC.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +18,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
-
     @Bean
     AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -30,15 +28,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/")
                 .permitAll()
+                .antMatchers("/register")
+                .permitAll()
                 .antMatchers("/home")
-                .hasAuthority("USER")
+                .hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/admin")
                 .hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
                 .and()
                 .httpBasic();
     }

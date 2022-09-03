@@ -1,6 +1,8 @@
 package com.springmvc.SpringMVC.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -11,17 +13,20 @@ public class UserModel {
     private Integer id;
 
     @Column(nullable = false, unique = true, name = "username")
+    @NotEmpty(message = "User name can not be empty")
+    @Size(min = 4, message = "User name can not be shorter than 4 characters")
     private String userName;
 
     @Column(nullable = false)
+    @NotEmpty(message = "Password can not be empty")
     private String password;
 
     @Column(nullable = false)
     private String role;
 
     public UserModel() {
-
     }
+
     public UserModel(String userName, String password, String role) {
         this.userName = userName;
         this.password = password;

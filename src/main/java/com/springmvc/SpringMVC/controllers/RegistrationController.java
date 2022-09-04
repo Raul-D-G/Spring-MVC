@@ -34,8 +34,8 @@ public class RegistrationController {
         try {
             userService.register(userData);
         } catch (UserAlreadyExistException e) {
-            bindingResult.rejectValue("userName", "userData.userName", "An account already exists for this userName.");
-            model.addAttribute("registrationForm", userData);
+            bindingResult.rejectValue("userName", "401", e.getMessage());
+            model.addAttribute("userData", userData);
             return "register";
         }
         return "redirect:/home";

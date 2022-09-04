@@ -1,5 +1,7 @@
 package com.springmvc.SpringMVC.model;
 
+import com.springmvc.SpringMVC.constraint.ValidPassword;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -19,6 +21,7 @@ public class UserModel {
 
     @Column(nullable = false)
     @NotEmpty(message = "Password can not be empty")
+    @ValidPassword
     private String password;
 
     @Column(nullable = false)

@@ -24,7 +24,7 @@ public class UserService implements IUserService {
 
         //Let's check if user already registered with us
         if (checkIfUserExist(user.getUserName())) {
-            throw new UserAlreadyExistException("User already exists for this User Name");
+            throw new UserAlreadyExistException("An account already exists for this User Name.");
         }
         encodePassword(user);
         user.setRole("USER"); //ROLE -= USER by FORCE

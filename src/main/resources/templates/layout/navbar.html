@@ -1,39 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="head :: head"></head>
+<head th:replace="head :: head"></head>
 <body>
-<div th:fragment="navbar">
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <p>Welcome --</p>
-        <p th:text="${session.userName}"></p>
-        <p>+++++</p>
+    <nav th:fragment="navbar"  class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <h3 class="welcome">Welcome &nbsp</h3>
+        <h3 class="welcome" th:text="${session.userName}"></h3>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/invoice">Invoice</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                        Actions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="/invoice">Add invoice</a>
+                        <a class="dropdown-item" href="/products">Add product</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                <!--                <li class="nav-item">-->
-                <!--                    <a class="nav-link disabled" href="#">Disabled</a>-->
-                <!--                </li>-->
             </ul>
             <div class="my-2 my-lg-0">
                 <a class="btn btn-outline-danger" href="/logout" />Logout</a>
@@ -44,6 +38,6 @@
             <!--            </form>-->
         </div>
     </nav>
-</div>
+
 </body>
 </html>

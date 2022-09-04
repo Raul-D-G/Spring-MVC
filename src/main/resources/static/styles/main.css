@@ -1,0 +1,50 @@
+/*p {*/
+/*    font-family: sans-serif;*/
+/*}*/
+
+.welcome {
+    color: antiquewhite;
+}
+
+/*body {*/
+/*    background-image: url("https://www.zoho.com/invoice/images/invoice-templates/free-online-invoice-templates-image-1x.png");*/
+/*    background-repeat: no-repeat;*/
+/*    background-attachment: fixed;*/
+/*    background-size: cover;*/
+/*}*/
+
+body, html {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.bg-image {
+    /* The image used */
+    background-image: url("https://www.zoho.com/invoice/images/invoice-templates/free-online-invoice-templates-image-1x.png");
+
+    /* Add the blur effect */
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.content {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.productList {
+    padding-top: 20px;
+}

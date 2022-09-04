@@ -3,31 +3,47 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/template" lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Login</title>
-    <meta name="description" content=""/>
-    <meta name="viewport" content="width=device-width"/>
-    <base href="/"/>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css"></link>
-
-</head>
+<head th:replace="layout/head :: head"></head>
 <body>
 
 
 <div th:replace="layout/navbar :: navbar"></div>
-<div class="container">
-    <section layout:fragment="content">
-        <div class=" pagination-centered">
-            <p>Lorem ipsum</p>
-        </div>
-    </section>
-</div>
 
+<div class="bg-image"></div>
+<div class="content">
+
+
+    <div class="container ">
+        <section layout:fragment="content">
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+            <div>
+                <p>Lorem ipsum</p>
+                <h2>asdasd</h2>
+            </div>
+
+        </section>
+    </div>
+
+</div>
 
 </body>
 </html>

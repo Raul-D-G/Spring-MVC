@@ -5,10 +5,11 @@
       layout:decorator="layout/template" lang="en">
 <head th:replace="layout/head :: head"></head>
 
-
+<body>
 <div th:replace="layout/navbar :: navbar"></div>
 
 <div class="container productList">
+
     <div class="row">
 
         <div th:each="product : ${products}" class="col-xl-6 mb-4">
@@ -18,7 +19,7 @@
                         <div class="d-flex align-items-center">
                             <i class="fa fa-shopping-cart fa-lg me-3 fa-fw" style="width: 45px; height: 45px"></i>
                             <div class="ms-3">
-                                <p  th:text="${product.name}" class="fw-bold mb-1"></p>
+                                <p th:text="${product.name}" class="fw-bold mb-1"></p>
                                 <p th:text="${product.price}" class="text-muted mb-0"></p>
                             </div>
                         </div>
@@ -29,6 +30,7 @@
                         class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
                 >
                     <a
+                            th:href="@{/showUpdateForm(productId=${product.id})}"
                             class="btn btn-link m-0 text-reset"
                             href="#"
                             role="button"
@@ -36,6 +38,7 @@
                     >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
                     <a
+                            th:href="@{/deleteProduct(productId=${product.id})}"
                             class="btn btn-link m-0 text-reset"
                             href="#"
                             role="button"
@@ -45,8 +48,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 

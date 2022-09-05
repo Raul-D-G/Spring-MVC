@@ -3,6 +3,7 @@ package com.springmvc.SpringMVC.model;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -14,16 +15,18 @@ public class ProductModel {
     private Integer id;
 
     @Column
-    @NotEmpty
+    @NotEmpty(message = "Product name can not be empty")
     @Size(min = 3, message = "Product name can not be shorter than 3 characters")
     private String name;
 
     @Column
+    @NotNull
     @Min(0)
     private Float price;
 
     @Column
-    @Min(0)
+    @NotNull
+    @Min(value = 1, message = "At least one product is required")
     private Integer amount;
 
     public ProductModel() {

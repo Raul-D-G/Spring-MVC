@@ -37,7 +37,6 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(final Model model) {
-//        model.addAttribute("hello", session.getAttribute("userName"));
         return "home";
     }
 }

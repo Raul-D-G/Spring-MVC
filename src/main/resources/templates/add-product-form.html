@@ -26,6 +26,8 @@
 
         <input type="number" min="0" th:field="*{amount}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
                placeholder="Enter amount"/>
+        <input type="text" th:field="*{unit}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter unit of measure"/>
 
         <button type="submit" class="btn btn-primary col-2">Save</button>
         <input type="hidden" th:field="*{id}"/>

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head :: head"></head>
 <body>
-    <nav th:fragment="navbar"  class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav th:fragment="navbar"  class="navbar navbar-expand-lg navbar-dark bg-dark navigation">
         <h3 class="welcome">Welcome &nbsp</h3>
         <h3 class="welcome" th:text="${session.userName}"></h3>
 
@@ -28,7 +28,8 @@
                         <a class="dropdown-item" href="/invoice">Add invoice</a>
                         <a class="dropdown-item" href="/addProductForm">Add product</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item"
+                           th:href="@{/showCompanyUpdateForm(userName=${session.userName.toString()})}" href="/s">Edit Company</a>
                     </div>
                 </li>
             </ul>

@@ -1,6 +1,5 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.exception.UserAlreadyExistException;
 import com.springmvc.SpringMVC.model.ProductModel;
 import com.springmvc.SpringMVC.repository.ProductRepository;
 import org.slf4j.Logger;

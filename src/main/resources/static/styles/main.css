@@ -39,12 +39,29 @@ body, html {
 }
 
 
-.content {
-    position: absolute;
-    top: 10%;
-    left: 10%;
+.navigation {
+    /* fixed keyword is fine too */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* z-index works pretty much like a layer:
+    the higher the z-index value, the greater
+    it will allow the navigation tag to stay on top
+    of other tags */
 }
 
 .productList {
     padding-top: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
 }

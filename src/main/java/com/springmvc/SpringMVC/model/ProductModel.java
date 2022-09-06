@@ -20,23 +20,29 @@ public class ProductModel {
     private String name;
 
     @Column
-    @NotNull
+    @NotNull(message = "Product price can not be 0")
     @Min(0)
     private Float price;
 
     @Column
-    @NotNull
+    @NotNull(message = "Product amount can not be 0")
     @Min(value = 1, message = "At least one product is required")
     private Integer amount;
+
+    @Column
+    @NotEmpty(message = "Product unit can not be empty")
+    @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
+    private String unit;
 
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, Integer amount) {
+    public ProductModel(Integer id, String name, Float price, Integer amount, String unit) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
+        this.unit = unit;
     }
 
     public Integer getId() {
@@ -71,6 +77,14 @@ public class ProductModel {
         this.amount = amount;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
         return "ProductModel{" +
@@ -78,6 +92,7 @@ public class ProductModel {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", amount=" + amount +
+                ", unit='" + unit + '\'' +
                 '}';
     }
 }

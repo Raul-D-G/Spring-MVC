@@ -27,13 +27,18 @@ public class UserModel {
     @Column(nullable = false)
     private String role;
 
+    @OneToOne(mappedBy = "user")
+    private CompanyModel company;
+
     public UserModel() {
     }
 
-    public UserModel(String userName, String password, String role) {
+    public UserModel(Integer id, String userName, String password, String role, CompanyModel company) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.role = role;
+        this.company = company;
     }
 
     public Integer getId() {
@@ -68,6 +73,14 @@ public class UserModel {
         this.role = role;
     }
 
+    public CompanyModel getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyModel company) {
+        this.company = company;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -75,6 +88,7 @@ public class UserModel {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", company=" + company +
                 '}';
     }
 }

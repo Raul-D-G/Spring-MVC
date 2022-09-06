@@ -1,0 +1,46 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<div th:replace="layout/navbar :: navbar"></div>
+<div class="container">
+
+    <div th:if="${company.name != null}">
+        <h3>Edit Company</h3>
+    </div>
+    <div th:unless="${company.name != null}">
+        <h3>Add New Company</h3>
+    </div>
+    <hr/>
+
+    <form th:action="@{/saveCompany}" th:object="${company}" method="POST">
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <h4>All errors:</h4>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <input type="text" th:field="*{name}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter Company name"/>
+
+        <input type="text" th:field="*{mail}" th:errorclass="is-invalid"
+               class="form-control col-4 mb-4"
+               placeholder="Enter mail"/>
+
+        <input type="text" th:field="*{cui}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter cui"/>
+        <input type="text" th:field="*{bankAccount}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter bank account"/>
+
+        <button type="submit" class="btn btn-primary col-2">Save</button>
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{user}"/>
+
+    </form>
+    <hr/>
+    <a th:href="@{/home}">Back to home page</a>
+</div>
+
+</body>
+</html>

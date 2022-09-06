@@ -10,37 +10,60 @@
 <div th:replace="layout/navbar :: navbar"></div>
 
 <div class="bg-image"></div>
-<div class="content">
 
 
-    <div class="container ">
-        <section layout:fragment="content">
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
-            <div>
-                <p>Lorem ipsum</p>
-                <h2>asdasd</h2>
-            </div>
+<div class="centered">
 
-        </section>
+    <div th:if="${user.company != null}">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-address-book-o fa-lg me-3 fa-fw" style="width: 45px; height: 45px"></i>
+                        <div class="ms-3">
+                            <p th:text="${user.company.name}" class="fw-bold mb-1 "></p>
+                            <p th:text="'Bank Account: ' + ${user.company.bankAccount}"
+                               class="text-muted mb-0 mr-4 "></p>
+
+                            <p th:text="'CUI : ' + ${user.company.cui}" class="fw-bold mb-1"></p>
+                        </div>
+                    </div>
+                    <span th:text="'Mail : ' + ${user.company.mail}"
+                          class="badge rounded-pill badge-success"></span>
+                </div>
+            </div>
+            <div
+                    class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
+            >
+                <a
+                        th:href="@{/showCompanyUpdateForm(userName=${user.userName})}"
+                        class="btn btn-link m-0 text-reset"
+                        href="#"
+                        role="button"
+                        data-ripple-color="primary"
+                >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+                <a
+                        th:href="@{/deleteCompany(companyId=${user.company.id})}"
+                        class="btn btn-link m-0 text-reset"
+                        href="#"
+                        role="button"
+                        data-ripple-color="primary"
+                >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:unless="${user.company}">
+        <a
+                th:href="@{/addCompanyForm(userId=${user.id})}"
+                class="btn btn-info m-0 text-reset"
+                href="#"
+                role="button"
+                data-ripple-color="primary"
+        >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
+        </a>
     </div>
 
 </div>

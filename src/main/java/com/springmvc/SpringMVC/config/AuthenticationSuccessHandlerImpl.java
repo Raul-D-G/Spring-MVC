@@ -77,7 +77,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
         roleTargetUrlMap.put("USER", "/home");
-        roleTargetUrlMap.put("ADMIN", "/console.html");
+        roleTargetUrlMap.put("ADMIN", "/home");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {

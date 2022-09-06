@@ -38,6 +38,6 @@ public class RegistrationController {
             model.addAttribute("userData", userData);
             return "register";
         }
-        return "redirect:/home";
+        return "redirect:/login";
     }
 }

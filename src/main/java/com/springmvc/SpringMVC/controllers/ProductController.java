@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -44,11 +45,14 @@ public class ProductController {
 
         UserModel user = userRepository.findUserModelByUserName(userName);
 
-        List<ProductModel> products = productRepository.findAllByProductCompany(user.getCompany());
-
-        logger.info("The following products of company " + user.getCompany().getName() + " were found: " + products);
+        List<ProductModel> products = Collections.emptyList();
+        if (user.getCompany() != null) {
+            products = productRepository.findAllByProductCompany(user.getCompany());
+            logger.info("The following products of company " + user.getCompany().getName() + " were found: " + products);
+        }
 
         model.addAttribute("products", products);
+        model.addAttribute("user", user);
 
         return "productList";
     }
@@ -66,6 +70,7 @@ public class ProductController {
         company.addProduct(newProduct);
 
         mav.addObject("product", newProduct);
+        mav.addObject("user", user);
         return mav;
     }
 
@@ -93,8 +98,12 @@ public class ProductController {
     @GetMapping("/showUpdateForm")
     public ModelAndView showUpdateForm(@RequestParam Integer productId) {
         ModelAndView mav = new ModelAndView("add-product-form");
+
+        UserModel user = userRepository.findUserModelByUserName(session.getAttribute("userName").toString());
+
         ProductModel product = productRepository.findById(productId).get();
         mav.addObject("product", product);
+        mav.addObject("user", user);
         return mav;
     }
 

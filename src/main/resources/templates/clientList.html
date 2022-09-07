@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div th:if="${clients.isEmpty()}" class="centered">
+<div th:if="${clients.isEmpty() and user.company != null}" class="centered">
     <a
             th:href="@{/addClientForm(userName=${session.userName.toString()})}"
             class="btn btn-info m-0 text-reset"
@@ -63,6 +63,17 @@
             role="button"
             data-ripple-color="primary"
     >Add Client<i class="fa fa-user-o ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+
+<div th:unless="${user.company}" class="centered">
+    <a
+            th:href="@{/addCompanyForm(userId=${user.id})}"
+            class="btn btn-info m-0 text-reset"
+            href="#"
+            role="button"
+            data-ripple-color="primary"
+    >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
     </a>
 </div>
 </body>

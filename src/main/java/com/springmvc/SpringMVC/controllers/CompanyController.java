@@ -45,6 +45,7 @@ public class CompanyController {
         user.setCompany(newCompany);
 
         mav.addObject("company", newCompany);
+        mav.addObject("user", user);
         return mav;
     }
 
@@ -77,6 +78,7 @@ public class CompanyController {
         UserModel user = userRepository.findUserModelByUserName(userName);
         CompanyModel company = companyRepository.findById(user.getCompany().getId()).get();
         mav.addObject("company", company);
+        mav.addObject("user", user);
         return mav;
     }
 

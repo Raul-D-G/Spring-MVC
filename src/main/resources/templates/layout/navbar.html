@@ -20,6 +20,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/clients(userName=${session.userName.toString()})}">Clients</a>
+
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -28,14 +29,24 @@
                         Actions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/invoice">Add invoice</a>
                         <a class="dropdown-item"
+                           th:if="${user.company != null}"
+                           th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add invoice</a>
+
+                        <a class="dropdown-item"
+                           th:if="${user.company != null}"
                            th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add product</a>
                         <a class="dropdown-item"
+                           th:if="${user.company != null}"
                            th:href="@{/addClientForm(userName=${session.userName.toString()})}">Add client</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item"
-                           th:href="@{/showCompanyUpdateForm(userName=${session.userName.toString()})}" href="/s">Edit your Company</a>
+                           th:if="${user.company != null}"
+                           th:href="@{/showCompanyUpdateForm(userName=${session.userName.toString()})}">Edit your Company</a>
+                        <a class="dropdown-item"
+                           th:unless="${user.company != null}"
+                           th:href="@{/addCompanyForm(userId=${user.id})}"
+                           >Add Company</a>
 
                     </div>
                 </li>

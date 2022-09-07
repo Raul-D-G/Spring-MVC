@@ -5,7 +5,7 @@
       layout:decorator="layout/template" lang="en">
 <head th:replace="layout/head :: head"></head>
 
-<body>
+<body th:with="user=${user}">
 <div th:replace="layout/navbar :: navbar"></div>
 
 <div th:if="${!products.isEmpty()}" class="container productList">
@@ -60,7 +60,7 @@
 </div>
 
 
-<div th:if="${products.isEmpty()}" class="centered">
+<div th:if="${products.isEmpty() and user.company != null}" class="centered">
     <a
             th:href="@{/addProductForm(userName=${session.userName.toString()})}"
             class="btn btn-info m-0 text-reset"
@@ -68,6 +68,17 @@
             role="button"
             data-ripple-color="primary"
     >Add Product<i class="fa fa-shopping-basket ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+
+<div th:unless="${user.company}" class="centered">
+    <a
+            th:href="@{/addCompanyForm(userId=${user.id})}"
+            class="btn btn-info m-0 text-reset"
+            href="#"
+            role="button"
+            data-ripple-color="primary"
+    >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
     </a>
 </div>
 </body>

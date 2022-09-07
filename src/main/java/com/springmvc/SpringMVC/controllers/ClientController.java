@@ -68,6 +68,7 @@ public class ClientController {
         company.addClient(newClient);
 
         mav.addObject("client", newClient);
+        mav.addObject("user", user);
         return mav;
     }
 
@@ -93,8 +94,10 @@ public class ClientController {
     @GetMapping("/showClientUpdateForm")
     public ModelAndView showUpdateForm(@RequestParam Integer clientId) {
         ModelAndView mav = new ModelAndView("add-client-form");
+        UserModel user = userRepository.findUserModelByUserName(session.getAttribute("userName").toString());
         ClientModel client = clientRepository.findById(clientId).get();
         mav.addObject("client", client);
+        mav.addObject("user", user);
         return mav;
     }
 

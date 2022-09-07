@@ -2,8 +2,9 @@
 
 <head th:replace="layout/head :: head"></head>
 
-<body>
+<body th:with="user=${user}">
 <div th:replace="layout/navbar :: navbar"></div>
+
 <div class="container">
 
     <div th:if="${client.name != null}">
@@ -35,7 +36,7 @@
 
     </form>
     <hr/>
-    <a th:href="@{/home}">Back to home page</a>
+    <a th:href="@{/clients(userName=${user.userName})}">Back to list</a>
 </div>
 
 </body>

@@ -35,7 +35,7 @@ public class ProductController {
 
         logger.info("The following products were found: " + products);
 
-        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("products", products);
 
         return "productList";
     }

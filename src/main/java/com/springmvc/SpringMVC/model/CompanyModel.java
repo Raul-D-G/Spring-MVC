@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "companies")
@@ -36,13 +37,17 @@ public class CompanyModel {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserModel user;
 
-    public CompanyModel(Integer id, String name, String mail, String cui, String bankAccount, UserModel user) {
+    @OneToMany(mappedBy = "company")
+    private Set<ClientModel> clients;
+
+    public CompanyModel(Integer id, String name, String mail, String cui, String bankAccount, UserModel user, Set<ClientModel> clients) {
         this.id = id;
         this.name = name;
         this.mail = mail;
         this.cui = cui;
         this.bankAccount = bankAccount;
         this.user = user;
+        this.clients = clients;
     }
 
     public CompanyModel(UserModel user) {
@@ -98,6 +103,20 @@ public class CompanyModel {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    public Set<ClientModel> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<ClientModel> clients) {
+        this.clients = clients;
+    }
+
+    public void addClient(ClientModel newClient) {
+        Set<ClientModel> oldClients = this.clients;
+        oldClients.add(newClient);
+        setClients(oldClients);
     }
 
     @Override

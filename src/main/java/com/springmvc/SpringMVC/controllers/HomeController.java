@@ -30,7 +30,7 @@ public class HomeController {
 
         UserModel user = userRepository.findUserModelByUserName(userName);
         model.addAttribute("user", user);
-
+        model.addAttribute("company", user.getCompany());
         return "home";
     }
 }

@@ -34,15 +34,20 @@ public class ProductModel {
     @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
     private String unit;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
+    private CompanyModel productCompany;
+
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, Integer amount, String unit) {
+    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, CompanyModel productCompany) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.unit = unit;
+        this.productCompany = productCompany;
     }
 
     public Integer getId() {
@@ -83,6 +88,14 @@ public class ProductModel {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public CompanyModel getProductCompany() {
+        return productCompany;
+    }
+
+    public void setProductCompany(CompanyModel productCompany) {
+        this.productCompany = productCompany;
     }
 
     @Override

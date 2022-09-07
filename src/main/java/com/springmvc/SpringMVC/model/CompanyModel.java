@@ -40,7 +40,10 @@ public class CompanyModel {
     @OneToMany(mappedBy = "company")
     private Set<ClientModel> clients;
 
-    public CompanyModel(Integer id, String name, String mail, String cui, String bankAccount, UserModel user, Set<ClientModel> clients) {
+    @OneToMany(mappedBy = "productCompany")
+    private Set<ProductModel> products;
+
+    public CompanyModel(Integer id, String name, String mail, String cui, String bankAccount, UserModel user, Set<ClientModel> clients, Set<ProductModel> products) {
         this.id = id;
         this.name = name;
         this.mail = mail;
@@ -48,6 +51,7 @@ public class CompanyModel {
         this.bankAccount = bankAccount;
         this.user = user;
         this.clients = clients;
+        this.products = products;
     }
 
     public CompanyModel(UserModel user) {
@@ -117,6 +121,20 @@ public class CompanyModel {
         Set<ClientModel> oldClients = this.clients;
         oldClients.add(newClient);
         setClients(oldClients);
+    }
+
+    public Set<ProductModel> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<ProductModel> products) {
+        this.products = products;
+    }
+
+    public void addProduct(ProductModel product) {
+        Set<ProductModel> oldProducts = this.products;
+        oldProducts.add(product);
+        setProducts(oldProducts);
     }
 
     @Override

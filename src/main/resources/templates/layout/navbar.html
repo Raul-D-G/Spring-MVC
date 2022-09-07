@@ -5,7 +5,7 @@
 <body>
     <nav th:fragment="navbar"  class="navbar navbar-expand-lg navbar-dark bg-dark navigation">
         <h3 class="welcome">Welcome &nbsp</h3>
-        <h3 class="welcome" th:text="${session.userName}"></h3>
+        <h3 class="welcome mr-4" th:text="${session.userName}"></h3>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -16,7 +16,7 @@
                     <a class="nav-link" href="/invoice">Invoice</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/products">Products</a>
+                    <a class="nav-link" th:href="@{/products(userName=${session.userName.toString()})}">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/clients(userName=${session.userName.toString()})}">Clients</a>
@@ -29,7 +29,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/invoice">Add invoice</a>
-                        <a class="dropdown-item" href="/addProductForm">Add product</a>
+                        <a class="dropdown-item"
+                           th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add product</a>
                         <a class="dropdown-item"
                            th:href="@{/addClientForm(userName=${session.userName.toString()})}">Add client</a>
                         <div class="dropdown-divider"></div>

@@ -1,7 +1,11 @@
 package com.springmvc.SpringMVC.controllers;
 
+import com.springmvc.SpringMVC.model.CompanyModel;
 import com.springmvc.SpringMVC.model.ProductModel;
+import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.repository.CompanyRepository;
 import com.springmvc.SpringMVC.repository.ProductRepository;
+import com.springmvc.SpringMVC.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -24,16 +29,24 @@ public class ProductController {
     HttpSession session; //autowiring session
 
     @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
-    public String home(final Model model) {
+    public String home(@RequestParam String userName, final Model model) {
 
-        List<ProductModel> products = productRepository.findAll();
+        UserModel user = userRepository.findUserModelByUserName(userName);
 
-        logger.info("The following products were found: " + products);
+        List<ProductModel> products = productRepository.findAllByProductCompany(user.getCompany());
+
+        logger.info("The following products of company " + user.getCompany().getName() + " were found: " + products);
 
         model.addAttribute("products", products);
 
@@ -41,15 +54,23 @@ public class ProductController {
     }
 
     @GetMapping("/addProductForm")
-    public ModelAndView addEmployeeForm() {
+    public ModelAndView addEmployeeForm(@RequestParam String userName) {
         ModelAndView mav = new ModelAndView("add-product-form");
+
+        UserModel user = userRepository.findUserModelByUserName(userName);
+        CompanyModel company = companyRepository.findById(user.getCompany().getId()).get();
+
         ProductModel newProduct = new ProductModel();
+        newProduct.setProductCompany(company);
+
+        company.addProduct(newProduct);
+
         mav.addObject("product", newProduct);
         return mav;
     }
 
     @PostMapping("/saveProduct")
-    public String saveEmployee(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model) {
+    public String saveEmployee(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("product", product);
             return "add-product-form";
@@ -64,6 +85,7 @@ public class ProductController {
             model.addAttribute("product", product);
             return "add-product-form";
         }
+        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
 
         return "redirect:/products";
     }
@@ -77,8 +99,13 @@ public class ProductController {
     }
 
     @GetMapping("/deleteProduct")
-    public String deleteEmployee(@RequestParam Integer productId) {
+    public String deleteEmployee(@RequestParam Integer productId, RedirectAttributes redirectAttributes) {
+
+        ProductModel product = productRepository.findById(productId).get();
+        product.setProductCompany(null);
         productRepository.deleteById(productId);
+        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
+
         return "redirect:/products";
     }
 }

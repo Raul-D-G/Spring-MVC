@@ -1,0 +1,42 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div class="container">
+
+    <div th:if="${exchange.currency != null}">
+        <h3>Edit exchange</h3>
+    </div>
+    <div th:unless="${exchange.currency != null}">
+        <h3>Add new exchange rate</h3>
+    </div>
+    <hr/>
+
+    <form th:action="@{/saveExchange}" th:object="${exchange}" method="POST">
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <h4>All errors:</h4>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <input type="text" th:field="*{currency}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter Currency name"/>
+
+        <input type="number" step="0.01" th:field="*{rates}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter Currency rates"/>
+
+
+        <button type="submit" class="btn btn-primary col-2">Add currency</button>
+        <input type="hidden" th:field="*{id}"/>
+        <!--        <input type="hidden" th:field="*{company}"/>-->
+
+    </form>
+    <hr/>
+    <a th:href="@{/exchanges}">Back to list</a>
+</div>
+
+</body>
+</html>

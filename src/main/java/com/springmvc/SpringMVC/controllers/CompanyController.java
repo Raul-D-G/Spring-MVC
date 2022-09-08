@@ -29,11 +29,11 @@ public class CompanyController {
     @Autowired
     UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
 
     @GetMapping("/addCompanyForm")
-    public ModelAndView addEmployeeForm(@RequestParam Integer userId) {
+    public ModelAndView addCompanyForm(@RequestParam Integer userId) {
         ModelAndView mav = new ModelAndView("add-company-form");
 
         UserModel user = userRepository.findById(userId).get();
@@ -52,6 +52,7 @@ public class CompanyController {
     @PostMapping("/saveCompany")
     public String saveCompany(@Valid @ModelAttribute("company") CompanyModel company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("user", company.getUser());
             model.addAttribute("company", company);
             return "add-company-form";
         }
@@ -73,7 +74,7 @@ public class CompanyController {
     }
 
     @GetMapping("/showCompanyUpdateForm")
-    public ModelAndView showUpdateForm(@RequestParam String userName) {
+    public ModelAndView showCompanyUpdateForm(@RequestParam String userName) {
         ModelAndView mav = new ModelAndView("add-company-form");
         UserModel user = userRepository.findUserModelByUserName(userName);
         CompanyModel company = companyRepository.findById(user.getCompany().getId()).get();

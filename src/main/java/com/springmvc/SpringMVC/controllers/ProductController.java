@@ -78,6 +78,7 @@ public class ProductController {
     public String saveEmployee(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("product", product);
+            model.addAttribute("user", product.getProductCompany().getUser());
             return "add-product-form";
         }
 

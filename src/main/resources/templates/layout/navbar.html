@@ -30,23 +30,30 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"
-                           th:if="${user.company != null}"
+                           th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add invoice</a>
 
                         <a class="dropdown-item"
-                           th:if="${user.company != null}"
+                           th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add product</a>
                         <a class="dropdown-item"
-                           th:if="${user.company != null}"
+                           th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/addClientForm(userName=${session.userName.toString()})}">Add client</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item"
-                           th:if="${user.company != null}"
+                           th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/showCompanyUpdateForm(userName=${session.userName.toString()})}">Edit your Company</a>
                         <a class="dropdown-item"
-                           th:unless="${user.company != null}"
+                           th:unless="${user.company != null and user.company.id != null}"
                            th:href="@{/addCompanyForm(userId=${user.id})}"
                            >Add Company</a>
+                        <a class="dropdown-item"
+                           th:if="${user.role == 'ADMIN'}"
+                           th:href="@{/addExchangeForm}"
+                        >Add Exchange rate</a>
+                        <a class="dropdown-item"
+                           th:href="@{/exchanges}"
+                        >Exchange rates</a>
 
                     </div>
                 </li>

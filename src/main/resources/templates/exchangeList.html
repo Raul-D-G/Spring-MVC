@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/template" lang="en">
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div th:if="${!exchanges.isEmpty()}" class="container productList">
+
+    <div class="row">
+
+        <div th:each="exchange : ${exchanges}" class="col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-money fa-lg me-3 fa-fw" style="width: 45px; height: 45px"></i>
+                            <div class="ms-3">
+                                <h3 th:text="${exchange.currency}" class="fw-bold mb-1"></h3>
+                            </div>
+                        </div>
+                        <span th:text="'Exchange rates : ' + ${exchange.rates}"
+                              class="badge rounded-pill badge-success"></span>
+                    </div>
+                </div>
+                <div
+                        th:if="${user.role == 'ADMIN'}"
+                        class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
+                >
+                    <a
+                            th:href="@{/showExchangeUpdateForm(exchangeId=${exchange.id})}"
+                            class="btn btn-link m-0 text-reset"
+                            href="#"
+                            role="button"
+                            data-ripple-color="primary"
+                    >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a
+                            th:href="@{/deleteExchange(exchangeId=${exchange.id})}"
+                            class="btn btn-link m-0 text-reset"
+                            href="#"
+                            role="button"
+                            data-ripple-color="primary"
+                    >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

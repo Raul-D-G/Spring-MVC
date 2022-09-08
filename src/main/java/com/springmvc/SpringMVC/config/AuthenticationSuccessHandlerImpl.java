@@ -57,7 +57,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userName = userDetails.getUsername();
-
         logger.info("The user " + userName + " has logged in.");
 
         session.setAttribute("userName", userName);

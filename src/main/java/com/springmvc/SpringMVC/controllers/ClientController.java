@@ -76,6 +76,7 @@ public class ClientController {
     public String saveClient(@Valid @ModelAttribute("client") ClientModel client, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
+            model.addAttribute("user", client.getCompany().getUser());
             return "add-client-form";
         }
         try {

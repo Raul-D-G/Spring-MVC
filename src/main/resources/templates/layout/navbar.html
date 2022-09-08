@@ -13,7 +13,7 @@
                     <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/invoice">Invoice</a>
+                    <a class="nav-link" th:href="@{/invoices(userName=${session.userName.toString()})}">Invoice</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/products(userName=${session.userName.toString()})}">Products</a>
@@ -31,7 +31,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"
                            th:if="${user.company != null and user.company.id != null}"
-                           th:href="@{/addProductForm(userName=${session.userName.toString()})}">Add invoice</a>
+                           th:href="@{/addInvoiceForm(userId=${user.id})}">Add invoice</a>
 
                         <a class="dropdown-item"
                            th:if="${user.company != null and user.company.id != null}"

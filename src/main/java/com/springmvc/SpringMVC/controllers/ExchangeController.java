@@ -62,7 +62,7 @@ public class ExchangeController {
     }
 
     @PostMapping("/saveExchange")
-    public String saveExchange(@Valid @ModelAttribute("exchange") ExchangeModel exchange, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String saveExchange(@Valid @ModelAttribute("exchange") ExchangeModel exchange, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("exchange", exchange);
             UserModel user = userRepository.findUserModelByUserName(session.getAttribute("userName").toString());

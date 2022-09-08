@@ -1,9 +1,11 @@
 package com.springmvc.SpringMVC.controllers;
 
 import com.springmvc.SpringMVC.model.CompanyModel;
+import com.springmvc.SpringMVC.model.InvoiceModel;
 import com.springmvc.SpringMVC.model.ProductModel;
 import com.springmvc.SpringMVC.model.UserModel;
 import com.springmvc.SpringMVC.repository.CompanyRepository;
+import com.springmvc.SpringMVC.repository.InvoiceRepository;
 import com.springmvc.SpringMVC.repository.ProductRepository;
 import com.springmvc.SpringMVC.repository.UserRepository;
 import org.slf4j.Logger;
@@ -22,7 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ProductController {
@@ -38,10 +42,13 @@ public class ProductController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    InvoiceRepository invoiceRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
-    public String home(@RequestParam String userName, final Model model) {
+    public String products(@RequestParam String userName, final Model model) {
 
         UserModel user = userRepository.findUserModelByUserName(userName);
 

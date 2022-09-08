@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/template" lang="en">
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div th:if="${!invoices.isEmpty()}" class="container productList">
+
+    <div class="row">
+
+        <div th:each="invoice : ${invoices}" class="col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-money fa-lg me-3 fa-fw" style="width: 45px; height: 45px"></i>
+                            <div class="ms-3">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <p th:text="'Invoice: Series ' + ${invoice.series}"></p>
+                                    <p th:text="' Number ' + ${invoice.number}"></p>
+                                </div>
+                                <p th:text="'Issue date: ' + ${invoice.issueDate.toLocaleString().substring(0,12)}"
+                                   class="fw-bold mb-0"></p>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <p th:text="'Payment deadline: '+${invoice.paymentDeadline.toLocaleString().substring(0,12)}"
+                                       class="fw-bold mb-0 mr-2"></p>
+                                    <p th:text="' Days left: ' + ${invoice.paymentDeadline.getDate() - invoice.issueDate.getDate()}"
+                                       class=" mb-0"></p>
+                                </div>
+
+                                <p th:text="'TVA = ' + ${invoice.tva} + '%'" class="text-muted mb-0"></p>
+
+                                <p th:text="'Delegate : ' + ${invoice.delegate}" class="fw-bold mb-1"></p>
+                                <a
+                                        th:text="'Client: ' + ${invoice.invoiceClient.name}"
+                                        th:href="@{/clients(userName=${user.userName})}"
+                                        class="btn btn-link m-0 text-reset"
+                                        role="button"
+                                        data-ripple-color="primary"
+                                ></a>
+                                <a
+                                        th:href="@{/invoiceProducts(invoiceId=${invoice.id})}"
+                                        class="btn btn-link m-0 text-reset"
+                                        role="button"
+                                        data-ripple-color="primary"
+                                >See products!</a>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+
+                        <span th:text="'Currency : ' + ${invoice.invoiceExchange.currency} +' rates: '+ ${invoice.invoiceExchange.rates}"
+                              class="badge rounded-pill badge-success"></span>
+                            <span th:text="'Price : ' + ${invoice.tva}" class="badge rounded-pill badge-success"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div
+                        class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
+                >
+                    <a
+                            th:href="@{/showInvoiceUpdateForm(invoiceId=${invoice.id})}"
+                            class="btn btn-link m-0 text-reset"
+                            role="button"
+                            data-ripple-color="primary"
+                    >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a
+                            th:href="@{/deleteInvoice(invoiceId=${invoice.id})}"
+                            class="btn btn-link m-0 text-reset"
+                            href="#"
+                            role="button"
+                            data-ripple-color="primary"
+                    >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:if="${invoices.isEmpty() and user.company != null}" class="centered">
+    <a
+            th:href="@{/addInvoiceForm(userId=${user.id})}"
+            class="btn btn-info m-0 text-reset"
+            role="button"
+            data-ripple-color="primary"
+    >Add Invoice<i class="fa fa-shopping-basket ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+
+<div th:unless="${user.company}" class="centered">
+    <a
+            th:href="@{/addCompanyForm(userId=${user.id})}"
+            class="btn btn-info m-0 text-reset"
+            role="button"
+            data-ripple-color="primary"
+    >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+</body>
+</html>

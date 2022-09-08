@@ -3,6 +3,7 @@ package com.springmvc.SpringMVC.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
@@ -31,12 +32,16 @@ public class ClientModel {
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel company;
 
-    public ClientModel(Integer id, String name, String cui, String bankAccount, CompanyModel company) {
+    @OneToMany(mappedBy = "invoiceClient")
+    private Set<InvoiceModel> clientInvoices;
+
+    public ClientModel(Integer id, String name, String cui, String bankAccount, CompanyModel company, Set<InvoiceModel> clientInvoices) {
         this.id = id;
         this.name = name;
         this.cui = cui;
         this.bankAccount = bankAccount;
         this.company = company;
+        this.clientInvoices = clientInvoices;
     }
 
     public ClientModel() {
@@ -80,6 +85,14 @@ public class ClientModel {
 
     public void setCompany(CompanyModel company) {
         this.company = company;
+    }
+
+    public Set<InvoiceModel> getClientInvoices() {
+        return clientInvoices;
+    }
+
+    public void setClientInvoices(Set<InvoiceModel> clientInvoices) {
+        this.clientInvoices = clientInvoices;
     }
 
     @Override

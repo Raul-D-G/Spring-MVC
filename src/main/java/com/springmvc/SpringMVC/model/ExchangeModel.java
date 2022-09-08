@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "exchange")
@@ -24,10 +25,14 @@ public class ExchangeModel {
     @Min(1)
     private Float rates;
 
-    public ExchangeModel(Integer id, String currency, Float rates) {
+    @OneToMany(mappedBy = "invoiceExchange")
+    private Set<InvoiceModel> exchangeInvoices;
+
+    public ExchangeModel(Integer id, String currency, Float rates, Set<InvoiceModel> exchangeInvoices) {
         this.id = id;
         this.currency = currency;
         this.rates = rates;
+        this.exchangeInvoices = exchangeInvoices;
     }
 
     public ExchangeModel() {
@@ -57,6 +62,13 @@ public class ExchangeModel {
         this.rates = rates;
     }
 
+    public Set<InvoiceModel> getExchangeInvoices() {
+        return exchangeInvoices;
+    }
+
+    public void setExchangeInvoices(Set<InvoiceModel> exchangeInvoices) {
+        this.exchangeInvoices = exchangeInvoices;
+    }
 
     @Override
     public String toString() {

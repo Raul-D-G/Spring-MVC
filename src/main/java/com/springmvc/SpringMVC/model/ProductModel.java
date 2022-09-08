@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -38,16 +39,20 @@ public class ProductModel {
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel productCompany;
 
+    @ManyToMany(mappedBy = "invoiceProducts")
+    Set<InvoiceModel> productInvoices;
+
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, CompanyModel productCompany) {
+    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, CompanyModel productCompany, Set<InvoiceModel> productInvoices) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.unit = unit;
         this.productCompany = productCompany;
+        this.productInvoices = productInvoices;
     }
 
     public Integer getId() {
@@ -96,6 +101,14 @@ public class ProductModel {
 
     public void setProductCompany(CompanyModel productCompany) {
         this.productCompany = productCompany;
+    }
+
+    public Set<InvoiceModel> getProductInvoices() {
+        return productInvoices;
+    }
+
+    public void setProductInvoices(Set<InvoiceModel> productInvoices) {
+        this.productInvoices = productInvoices;
     }
 
     @Override

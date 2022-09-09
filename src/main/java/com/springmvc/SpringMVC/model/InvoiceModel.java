@@ -31,13 +31,13 @@ public class InvoiceModel {
 
     @Column(name = "issue_date")
     @ValidDate
-    @NotNull
+    @NotNull(message = "Invoice issue date is required!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
 
     @Column(name = "payment_deadline")
     @ValidDate
-    @NotNull
+    @NotNull(message = "Invoice payment deadline is required!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date paymentDeadline;
 
@@ -52,10 +52,12 @@ public class InvoiceModel {
 
     @ManyToOne
     @JoinColumn(name = "exchage_id", referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Invoice exchange is required!")
     private ExchangeModel invoiceExchange;
 
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Invoice client is required!")
     private ClientModel invoiceClient;
 
     @ManyToOne
@@ -67,7 +69,12 @@ public class InvoiceModel {
             name = "billings",
             joinColumns = @JoinColumn(name = "invoice_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @NotNull(message = "Invoice product is required!")
     Set<ProductModel> invoiceProducts;
+
+//    @Column
+//    @NotNull(message = "Invoice total price is required!")
+//    private Float price;
 
     public InvoiceModel(Integer id, String series, Integer number, Date issueDate, Date paymentDeadline, String delegate, Integer tva, ExchangeModel invoiceExchange, ClientModel invoiceClient, CompanyModel invoiceCompany, Set<ProductModel> invoiceProducts) {
         this.id = id;
@@ -81,6 +88,7 @@ public class InvoiceModel {
         this.invoiceClient = invoiceClient;
         this.invoiceCompany = invoiceCompany;
         this.invoiceProducts = invoiceProducts;
+//        this.price = price;
     }
 
     public InvoiceModel() {
@@ -172,6 +180,39 @@ public class InvoiceModel {
 
     public void setInvoiceProducts(Set<ProductModel> invoiceProducts) {
         this.invoiceProducts = invoiceProducts;
+    }
+
+//    public Float getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Float price) {
+//        this.price = price;
+//    }
+
+    public Float getPrice() {
+        float totalPrice = 0;
+        for (ProductModel productModel : invoiceProducts) {
+            totalPrice += productModel.getPrice();
+        }
+        return totalPrice;
+    }
+
+    public Float getPriceWithTVA() {
+        Float tvaPrice = getPrice() * getTva() / 100;
+        return getPrice() + tvaPrice;
+    }
+
+    public Float getPriceInCurrency() {
+        return getPrice() * invoiceExchange.getRates();
+    }
+
+    public Float getTotalPriceInCurrency() {
+        return getPriceWithTVA() * invoiceExchange.getRates();
+    }
+
+    public Float getTVAPrice() {
+        return getPrice() * getTva() / 100;
     }
 
     @Override

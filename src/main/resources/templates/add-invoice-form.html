@@ -43,19 +43,22 @@
         <input type="number" th:field="*{tva}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
                placeholder="Enter tva"/>
 
-        <select th:field="*{invoiceExchange}" class="form-control col-4 mb-4" id="dropDownListExchange">
+        <select th:field="*{invoiceExchange}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+                id="dropDownListExchange">
             <option value="0">select exchange currency</option>
             <option th:each="exchange : ${exchanges}" th:value="${exchange.id}"
                     th:text="${exchange.currency}"></option>
         </select>
 
-        <select th:if="${!products.isEmpty()}" th:field="*{invoiceProducts}" class="form-control col-4 mb-4"
+        <select th:if="${!products.isEmpty()}" th:errorclass="is-invalid" th:field="*{invoiceProducts}"
+                class="form-control col-4 mb-4"
                 id="dropDownListProducts">
             <option value="0">select product</option>
             <option th:each="product : ${products}" th:value="${product.id}"
                     th:text="${product.name}"></option>
         </select>
-        <select th:if="${!clients.isEmpty()}" th:field="*{invoiceClient}" class="form-control col-4 mb-4"
+        <select th:if="${!clients.isEmpty()}" th:errorclass="is-invalid" th:field="*{invoiceClient}"
+                class="form-control col-4 mb-4"
                 id="dropDownListClient">
             <option value="0">select client</option>
             <option th:each="client : ${clients}" th:value="${client.id}"

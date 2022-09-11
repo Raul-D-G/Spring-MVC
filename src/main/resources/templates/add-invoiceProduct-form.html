@@ -1,0 +1,58 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div class="container text-center">
+
+    <h3 th:text="'Add a new product for the invoice with the ' + ${invoice.series} + ' series and ' +${invoice.number} + ' number.'"></h3>
+    <hr/>
+
+    <form th:action="@{/updateInvoice(invoiceId=${invoice.id})}"
+          th:object="${newProduct}" method="POST">
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <h4>All errors:</h4>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+
+
+        <select th:if="${!products.isEmpty()}" th:errorclass="is-invalid"
+                th:field="${newProduct.id}"
+                class="form-control col-4 mb-4"
+                id="dropDownListProducts">
+            <option value="0">select product</option>
+            <option th:each="product : ${products}" th:value="${product.id}"
+                    th:text="${product.name}"></option>
+        </select>
+
+
+        <div th:if="${user.company.products.isEmpty()}" class="mb-4">
+            <a
+                    th:href="@{/addProductForm(userName=${session.userName.toString()})}"
+                    class="btn btn-info m-0 text-reset"
+                    href="#"
+                    role="button"
+                    data-ripple-color="primary"
+            >Add Product<i class="fa fa-shopping-basket ml-3" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <button type="submit" class="btn btn-primary col-2">Update Invoice</button>
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{name}"/>
+        <input type="hidden" th:field="*{price}"/>
+        <input type="hidden" th:field="*{amount}"/>
+        <input type="hidden" th:field="*{unit}"/>
+        <input type="hidden" th:field="*{productCompany}"/>
+
+    </form>
+    <hr/>
+    <a th:href="@{/invoices(userName=${user.userName})}" class="pb-4">Back to invoice list</a>
+</div>
+
+</body>
+</html>

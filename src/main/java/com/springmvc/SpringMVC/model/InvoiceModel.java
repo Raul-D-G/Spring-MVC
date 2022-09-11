@@ -215,6 +215,12 @@ public class InvoiceModel {
         return getPrice() * getTva() / 100;
     }
 
+    public void addNewProduct(ProductModel product) {
+        Set<ProductModel> oldProducts = getInvoiceProducts();
+        oldProducts.add(product);
+        setInvoiceProducts(oldProducts);
+    }
+
     @Override
     public String toString() {
         return "InvoiceModel{" +

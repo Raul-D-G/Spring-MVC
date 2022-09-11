@@ -23,8 +23,8 @@
                               class="card-notify-badge"></span>
                         <span th:text="'Nr. ' + ${invoice.number}"
                               class="card-notify-year"></span>
-                        <img class="img-fluid"
-                             src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262"
+                        <img class="img-fluid center-block"
+                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT12L3venv_5r5Avftl0lg6YJJBupMZVQTm4g&usqp=CAU"
                              alt="Alternate Text"/>
                     </div>
                     <div class="card-image-overlay m-auto">
@@ -76,10 +76,7 @@
                             ></a>
                         </div>
                     </div>
-                    <div
-                            class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
-                    >
-
+                    <div class="card-footer border-0 bg-light p-2 d-flex justify-content-around">
                         <a
                                 th:href="@{/deleteInvoice(invoiceId=${invoice.id})}"
                                 class="btn btn-link m-0 text-reset"
@@ -87,6 +84,15 @@
                                 role="button"
                                 data-ripple-color="primary"
                         >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+
+                        <a
+                                th:href="@{/addInvoiceProductsForm(invoiceId=${invoice.id})}"
+                                class="btn btn-link m-0 text-reset"
+                                href="#"
+                                role="button"
+                                data-ripple-color="primary"
+                        >Add product!<i class="fa fa-cart-plus" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

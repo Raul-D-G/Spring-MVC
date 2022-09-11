@@ -1,11 +1,9 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.CompanyModel;
-import com.springmvc.SpringMVC.model.InvoiceModel;
-import com.springmvc.SpringMVC.model.ProductModel;
-import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.model.*;
 import com.springmvc.SpringMVC.repository.ExchangeRepository;
 import com.springmvc.SpringMVC.repository.InvoiceRepository;
+import com.springmvc.SpringMVC.repository.ProductRepository;
 import com.springmvc.SpringMVC.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +34,61 @@ public class InvoiceController {
     @Autowired
     ExchangeRepository exchangeRepository;
 
+    @Autowired
+    ProductRepository productRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
+
+
+    @GetMapping("/addInvoiceProductsForm")
+    public ModelAndView addInvoiceProductsForm(@RequestParam Integer invoiceId) {
+        ModelAndView mav = new ModelAndView("add-invoiceProduct-form");
+
+
+        InvoiceModel invoice = invoiceRepository.findById(invoiceId).get();
+        CompanyModel company = invoice.getInvoiceCompany();
+        UserModel user = invoice.getInvoiceCompany().getUser();
+
+
+        ProductModel newProduct = new ProductModel();
+
+        mav.addObject("invoice", invoice);
+        mav.addObject("products", company.getProducts());
+        mav.addObject("company", company);
+        mav.addObject("user", user);
+        mav.addObject("newProduct", newProduct);
+        return mav;
+    }
+
+    @PostMapping("/updateInvoice")
+    public String updateInvoice(@ModelAttribute("newProduct") ProductModel product, @RequestParam Integer invoiceId, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        InvoiceModel invoice = invoiceRepository.findById(invoiceId).get();
+        ProductModel newProduct = productRepository.findById(product.getId()).get();
+
+        if (bindingResult.hasErrors()) {
+            CompanyModel company = invoice.getInvoiceCompany().getUser().getCompany();
+            model.addAttribute("user", invoice.getInvoiceCompany().getUser());
+            model.addAttribute("invoice", invoice);
+            model.addAttribute("products", company.getProducts());
+            return "add-invoiceProduct-form";
+        }
+
+        try {
+            invoice.addNewProduct(newProduct);
+            invoiceRepository.save(invoice);
+            logger.info("The following invoice has been updated " + invoice);
+
+        } catch (Exception e) {
+            bindingResult.rejectValue("userName", "401", e.getMessage());
+            model.addAttribute("invoice", invoice);
+            return "add-invoice-form";
+        }
+
+        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
+
+        return "redirect:/invoices";
+    }
+
 
     @GetMapping("/invoiceProducts")
     public String invoiceProducts(@RequestParam Integer invoiceId, final Model model) {

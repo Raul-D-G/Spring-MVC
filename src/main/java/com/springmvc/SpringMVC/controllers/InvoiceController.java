@@ -5,6 +5,7 @@ import com.springmvc.SpringMVC.repository.ExchangeRepository;
 import com.springmvc.SpringMVC.repository.InvoiceRepository;
 import com.springmvc.SpringMVC.repository.ProductRepository;
 import com.springmvc.SpringMVC.repository.UserRepository;
+import com.springmvc.SpringMVC.services.InvoiceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class InvoiceController {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    InvoiceService invoiceService;
 
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
 
@@ -74,8 +78,7 @@ public class InvoiceController {
         }
 
         try {
-            invoice.addNewProduct(newProduct);
-            invoiceRepository.save(invoice);
+            invoiceService.addProduct(invoice, newProduct);
             logger.info("The following invoice has been updated " + invoice);
 
         } catch (Exception e) {

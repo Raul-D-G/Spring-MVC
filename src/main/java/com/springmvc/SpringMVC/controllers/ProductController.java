@@ -65,7 +65,7 @@ public class ProductController {
     }
 
     @GetMapping("/addProductForm")
-    public ModelAndView addEmployeeForm(@RequestParam String userName) {
+    public ModelAndView addProductForm(@RequestParam String userName) {
         ModelAndView mav = new ModelAndView("add-product-form");
 
         UserModel user = userRepository.findUserModelByUserName(userName);
@@ -82,7 +82,7 @@ public class ProductController {
     }
 
     @PostMapping("/saveProduct")
-    public String saveEmployee(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String saveProduct(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("user", product.getProductCompany().getUser());
@@ -116,7 +116,7 @@ public class ProductController {
     }
 
     @GetMapping("/deleteProduct")
-    public String deleteEmployee(@RequestParam Integer productId, RedirectAttributes redirectAttributes) {
+    public String deleteProduct(@RequestParam Integer productId, RedirectAttributes redirectAttributes) {
 
         ProductModel product = productRepository.findById(productId).get();
         product.setProductCompany(null);

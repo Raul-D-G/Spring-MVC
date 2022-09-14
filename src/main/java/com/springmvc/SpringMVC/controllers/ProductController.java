@@ -11,6 +11,9 @@ import com.springmvc.SpringMVC.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,10 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.IntStream;
 
 @Controller
 public class ProductController {
@@ -48,13 +49,33 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
-    public String products(@RequestParam String userName, final Model model) {
+    public String products(@RequestParam(value = "userName") String userName, @RequestParam(value = "page", required = false) Optional<Integer> page, @RequestParam(value = "sortBy", required = false) Optional<String> sortBy, final Model model) {
+
+        sortBy.ifPresent(s -> model.addAttribute("sortBy", s));
+
+        if (sortBy.isEmpty()) {
+            model.addAttribute("sortBy", "price");
+        }
+        sortBy.ifPresent(System.out::println);
 
         UserModel user = userRepository.findUserModelByUserName(userName);
 
         List<ProductModel> products = Collections.emptyList();
         if (user.getCompany() != null) {
-            products = productRepository.findAllByProductCompany(user.getCompany());
+            products = productRepository.findAllByProductCompany(user.getCompany(), PageRequest.of(page.orElse(0), 4, Sort.Direction.ASC, sortBy.orElse("price")));
+
+            if (products.size() == 4) {
+                if (page.isPresent()) {
+                    model.addAttribute("nextPage", page.get() + 1);
+                } else {
+                    model.addAttribute("nextPage", 1);
+                }
+            }
+
+//            if (page.isEmpty()) {
+//                model.addAttribute("nextPage", 0);
+//            }
+
             logger.info("The following products of company " + user.getCompany().getName() + " were found: " + products);
         }
 

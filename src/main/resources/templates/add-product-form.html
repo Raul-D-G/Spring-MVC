@@ -27,6 +27,11 @@
                placeholder="Enter amount"/>
         <input type="text" th:field="*{unit}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
                placeholder="Enter unit of measure"/>
+        <label>Choose a category:</label>
+        <select class="form-control col-4 mb-4" th:errorclass="is-invalid" th:field="*{category}">
+            <option th:each="category : ${productCategory}" th:value="${category}" th:text="${category}"
+                    th:selected="${category==75}"></option>
+        </select>
 
         <button type="submit" class="btn btn-primary col-2">Add product</button>
         <input type="hidden" th:field="*{id}"/>

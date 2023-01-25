@@ -35,6 +35,10 @@ public class ProductModel {
     @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
     private String unit;
 
+    @Column
+    @NotEmpty(message = "Product category can not be empty")
+    private String category;
+
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel productCompany;
@@ -45,14 +49,14 @@ public class ProductModel {
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, CompanyModel productCompany, Set<InvoiceModel> productInvoices) {
+    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, String category, CompanyModel productCompany) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.unit = unit;
+        this.category = category;
         this.productCompany = productCompany;
-        this.productInvoices = productInvoices;
     }
 
     public Integer getId() {
@@ -89,6 +93,14 @@ public class ProductModel {
 
     public String getUnit() {
         return unit;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void setUnit(String unit) {

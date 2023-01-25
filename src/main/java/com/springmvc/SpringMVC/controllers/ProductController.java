@@ -8,6 +8,7 @@ import com.springmvc.SpringMVC.repository.CompanyRepository;
 import com.springmvc.SpringMVC.repository.InvoiceRepository;
 import com.springmvc.SpringMVC.repository.ProductRepository;
 import com.springmvc.SpringMVC.repository.UserRepository;
+import com.springmvc.SpringMVC.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,17 @@ public class ProductController {
     @Autowired
     InvoiceRepository invoiceRepository;
 
+    @Autowired
+    ProductService productService;
+
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
+    // Annotation
+    @ModelAttribute("productCategory")
+    public List<String> educationDetailsList() {
+        return Arrays.asList(
+                "Made in Romania.", "Made in UE.");
+    }
 
     @GetMapping("/products")
     public String products(@RequestParam(value = "userName") String userName, @RequestParam(value = "page", required = false) Optional<Integer> page, @RequestParam(value = "sortBy", required = false) Optional<String> sortBy, final Model model) {
@@ -111,7 +122,7 @@ public class ProductController {
         }
 
         try {
-            productRepository.save(product);
+            productService.createProduct(product);
             logger.info("The following product has been added " + product + "by user: " + session.getAttribute("userName"));
 
         } catch (Exception e) {

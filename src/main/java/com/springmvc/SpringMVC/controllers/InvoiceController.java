@@ -82,7 +82,8 @@ public class InvoiceController {
             logger.info("The following invoice has been updated " + invoice);
 
         } catch (Exception e) {
-            bindingResult.rejectValue("userName", "401", e.getMessage());
+            logger.info(e.getMessage());
+            bindingResult.rejectValue("product", "401", e.getMessage());
             model.addAttribute("invoice", invoice);
             return "add-invoice-form";
         }

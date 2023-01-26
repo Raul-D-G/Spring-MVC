@@ -3,6 +3,7 @@ package com.springmvc.SpringMVC.services;
 import com.springmvc.SpringMVC.model.InvoiceModel;
 import com.springmvc.SpringMVC.model.ProductModel;
 import com.springmvc.SpringMVC.repository.InvoiceRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ public class InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
 
-    public void addProduct(InvoiceModel invoice, ProductModel newProduct) {
+    public void addProduct(@NotNull InvoiceModel invoice, ProductModel newProduct) {
 
         Set<ProductModel> oldProducts = invoice.getInvoiceProducts();
 

@@ -25,7 +25,7 @@ public class InvoiceModel {
     @Size(min = 2, message = "Invoice series can not be shorter than 2 characters")
     private String series;
 
-    @Column
+    @Column(name = "invoice_number")
     @NotNull(message = "Invoice number is required!")
     private Integer number;
 
@@ -41,7 +41,7 @@ public class InvoiceModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date paymentDeadline;
 
-    @Column
+    @Column(name = "invoice_delegate")
     @NotEmpty(message = "Invoice delegate can not be empty!")
     private String delegate;
 

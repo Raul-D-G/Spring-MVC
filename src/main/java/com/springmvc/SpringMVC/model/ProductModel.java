@@ -95,16 +95,16 @@ public class ProductModel {
         return unit;
     }
 
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public String getCategory() {
         return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public CompanyModel getProductCompany() {
@@ -131,6 +131,7 @@ public class ProductModel {
                 ", price=" + price +
                 ", amount=" + amount +
                 ", unit='" + unit + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

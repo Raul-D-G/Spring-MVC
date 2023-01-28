@@ -23,7 +23,7 @@ public class InvoiceService {
 
         if (oldProducts.contains(newProduct)) {
             oldProducts.remove(newProduct);
-            newProduct.setAmount(newProduct.getAmount() + 1);
+            invoice.setAmount(invoice.getAmount() + 1);
             oldProducts.add(newProduct);
         } else {
             oldProducts.add(newProduct);

@@ -104,6 +104,7 @@ public class InvoiceController {
 
         model.addAttribute("products", products);
         model.addAttribute("user", user);
+        model.addAttribute("invoice", invoice);
 
         return "productList";
     }

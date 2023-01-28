@@ -3,6 +3,7 @@ package com.springmvc.SpringMVC.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -17,19 +18,23 @@ public class CompanyModel {
     @Column
     @NotEmpty(message = "Company name can not be empty")
     @Size(min = 5, message = "Company name can not be shorter than 5 characters")
+    @NotNull
     private String name;
 
     @Column
     @Email
+    @NotNull
     private String mail;
 
     @Column
     @NotEmpty(message = "Company cui can not be empty")
     @Size(min = 5, message = "Company cui can not be shorter than 5 characters")
+    @NotNull
     private String cui;
 
     @Column(name = "bank_account")
     @NotEmpty(message = "Company bank account can not be empty")
+    @NotNull
     @Size(min = 5, message = "Company bank account can not be shorter than 5 characters")
     private String bankAccount;
 

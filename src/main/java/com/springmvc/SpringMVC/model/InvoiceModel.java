@@ -22,6 +22,7 @@ public class InvoiceModel {
 
     @Column
     @NotEmpty(message = "Invoice series can not be empty!")
+    @NotNull
     @Size(min = 2, message = "Invoice series can not be shorter than 2 characters")
     private String series;
 
@@ -42,6 +43,7 @@ public class InvoiceModel {
     private Date paymentDeadline;
 
     @Column(name = "invoice_delegate")
+    @NotNull
     @NotEmpty(message = "Invoice delegate can not be empty!")
     private String delegate;
 
@@ -49,6 +51,17 @@ public class InvoiceModel {
     @NotNull(message = "Invoice tva can not be 0!")
     @Min(1)
     private Integer tva;
+
+    @Column
+    @NotNull(message = "The amount of products for the invoice can not be 0")
+    @Min(value = 1, message = "At least one product is required")
+    private Integer amount;
+
+    @Column
+    @NotEmpty(message = "The product unit on the invoice can not be empty.")
+    @NotNull
+    @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
+    private String unit;
 
     @ManyToOne
     @JoinColumn(name = "exchage_id", referencedColumnName = "id", nullable = false)
@@ -72,11 +85,7 @@ public class InvoiceModel {
     @NotNull(message = "Invoice product is required!")
     Set<ProductModel> invoiceProducts;
 
-//    @Column
-//    @NotNull(message = "Invoice total price is required!")
-//    private Float price;
-
-    public InvoiceModel(Integer id, String series, Integer number, Date issueDate, Date paymentDeadline, String delegate, Integer tva, ExchangeModel invoiceExchange, ClientModel invoiceClient, CompanyModel invoiceCompany, Set<ProductModel> invoiceProducts) {
+    public InvoiceModel(Integer id, String series, Integer number, Date issueDate, Date paymentDeadline, String delegate, Integer tva, Integer amount, String unit, ExchangeModel invoiceExchange, ClientModel invoiceClient, CompanyModel invoiceCompany) {
         this.id = id;
         this.series = series;
         this.number = number;
@@ -84,11 +93,11 @@ public class InvoiceModel {
         this.paymentDeadline = paymentDeadline;
         this.delegate = delegate;
         this.tva = tva;
+        this.amount = amount;
+        this.unit = unit;
         this.invoiceExchange = invoiceExchange;
         this.invoiceClient = invoiceClient;
         this.invoiceCompany = invoiceCompany;
-        this.invoiceProducts = invoiceProducts;
-//        this.price = price;
     }
 
     public InvoiceModel() {
@@ -182,13 +191,21 @@ public class InvoiceModel {
         this.invoiceProducts = invoiceProducts;
     }
 
-//    public Float getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(Float price) {
-//        this.price = price;
-//    }
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public Float getPrice() {
         float totalPrice = 0;
@@ -227,14 +244,15 @@ public class InvoiceModel {
                 "id=" + id +
                 ", series='" + series + '\'' +
                 ", number=" + number +
-                ", issueDate='" + issueDate + '\'' +
-                ", paymentDeadline='" + paymentDeadline + '\'' +
+                ", issueDate=" + issueDate +
+                ", paymentDeadline=" + paymentDeadline +
                 ", delegate='" + delegate + '\'' +
                 ", tva=" + tva +
+                ", amount=" + amount +
+                ", unit='" + unit + '\'' +
                 ", invoiceExchange=" + invoiceExchange +
                 ", invoiceClient=" + invoiceClient +
                 ", invoiceCompany=" + invoiceCompany +
-                ", invoiceProducts=" + invoiceProducts +
                 '}';
     }
 }

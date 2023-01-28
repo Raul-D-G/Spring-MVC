@@ -17,6 +17,7 @@ public class ProductModel {
 
     @Column
     @NotEmpty(message = "Product name can not be empty")
+    @NotNull
     @Size(min = 3, message = "Product name can not be shorter than 3 characters")
     private String name;
 
@@ -26,17 +27,8 @@ public class ProductModel {
     private Float price;
 
     @Column
-    @NotNull(message = "Product amount can not be 0")
-    @Min(value = 1, message = "At least one product is required")
-    private Integer amount;
-
-    @Column
-    @NotEmpty(message = "Product unit can not be empty")
-    @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
-    private String unit;
-
-    @Column
     @NotEmpty(message = "Product category can not be empty")
+    @NotNull
     private String category;
 
     @ManyToOne
@@ -49,12 +41,10 @@ public class ProductModel {
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, Integer amount, String unit, String category, CompanyModel productCompany) {
+    public ProductModel(Integer id, String name, Float price, String category, CompanyModel productCompany) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.amount = amount;
-        this.unit = unit;
         this.category = category;
         this.productCompany = productCompany;
     }
@@ -81,22 +71,6 @@ public class ProductModel {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public String getCategory() {
@@ -129,10 +103,7 @@ public class ProductModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", amount=" + amount +
-                ", unit='" + unit + '\'' +
                 ", category='" + category + '\'' +
                 '}';
     }
 }
-

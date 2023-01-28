@@ -23,10 +23,6 @@
                class="form-control col-4 mb-4"
                placeholder="Enter price"/>
 
-        <input type="number" min="0" th:field="*{amount}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
-               placeholder="Enter amount"/>
-        <input type="text" th:field="*{unit}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
-               placeholder="Enter unit of measure"/>
         <label>Choose a category:</label>
         <select class="form-control col-4 mb-4" th:errorclass="is-invalid" th:field="*{category}">
             <option th:each="category : ${productCategory}" th:value="${category}" th:text="${category}"

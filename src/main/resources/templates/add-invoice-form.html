@@ -57,6 +57,13 @@
             <option th:each="product : ${products}" th:value="${product.id}"
                     th:text="${product.name}"></option>
         </select>
+
+        <input type="number" min="0" th:field="*{amount}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter amount of product"/>
+        
+        <input type="text" th:field="*{unit}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter unit of measure"/>
+
         <select th:if="${!clients.isEmpty()}" th:errorclass="is-invalid" th:field="*{invoiceClient}"
                 class="form-control col-4 mb-4"
                 id="dropDownListClient">

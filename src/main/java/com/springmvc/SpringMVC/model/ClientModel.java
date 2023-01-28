@@ -2,6 +2,7 @@ package com.springmvc.SpringMVC.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -15,17 +16,20 @@ public class ClientModel {
 
     @Column
     @NotEmpty(message = "Client name can not be empty")
-    @Size(min = 3, message = "Client name can not be shorter than 3 characters")
+    @NotNull
+    @Size(min = 3, max = 245, message = "Client name can not be shorter than 3 characters")
     private String name;
 
     @Column
     @NotEmpty(message = "Client cui can not be empty")
     @Size(min = 5, message = "Client cui can not be shorter than 5 characters")
+    @NotNull
     private String cui;
 
     @Column(name = "bank_account")
     @NotEmpty(message = "Client bank account can not be empty")
     @Size(min = 5, message = "Client bank account can not be shorter than 5 characters")
+    @NotNull
     private String bankAccount;
 
     @ManyToOne

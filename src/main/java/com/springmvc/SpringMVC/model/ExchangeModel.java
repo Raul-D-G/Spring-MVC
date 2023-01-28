@@ -17,6 +17,7 @@ public class ExchangeModel {
 
     @Column
     @NotEmpty(message = "Currency name can not be empty")
+    @NotNull
     @Size(min = 3, max = 5, message = "Currency name can not be shorter than 3 characters and longer than 5")
     private String currency;
 

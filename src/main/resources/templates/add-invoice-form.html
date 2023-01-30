@@ -59,10 +59,10 @@
         </select>
 
 
-        <input type="number" min="0" th:name="amount" class="form-control col-4 mb-4"
+        <input id="amountInput" type="number" min="0" th:name="amount" class="form-control col-4 mb-4"
                placeholder="Enter amount of product"/>
 
-        <input type="text" th:name="unit" class="form-control col-4 mb-4"
+        <input id="unitInput" type="text" th:name="unit" class="form-control col-4 mb-4"
                placeholder="Enter unit of measure"/>
 
         <select th:if="${!clients.isEmpty()}" th:errorclass="is-invalid" th:field="*{invoiceClient}"
@@ -95,7 +95,8 @@
             </a>
         </div>
 
-        <button type="submit" class="btn btn-primary col-2">Save Invoice</button>
+
+        <button id="submitButton" type="submit" class="btn btn-primary col-2">Save Invoice</button>
         <input type="hidden" th:field="*{id}"/>
         <input type="hidden" th:field="*{invoiceCompany}"/>
 
@@ -105,4 +106,28 @@
 </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const amountInput = document.getElementById("amountInput");
+        const unitInput = document.getElementById("unitInput");
+        const submitButton = document.getElementById("submitButton");
+
+        submitButton.disabled = false;
+
+        amountInput.addEventListener("input", () => {
+            submitButton.disabled = !(amountInput.value && unitInput.value);
+        });
+
+        unitInput.addEventListener("input", () => {
+            submitButton.disabled = !(amountInput.value && unitInput.value);
+        });
+
+        submitButton.onmousemove = function () {
+            if (!amountInput.value || !unitInput.value) {
+                submitButton.disabled = true;
+                alert("Please fill in the amount and unit fields to enable the submit button.");
+            }
+        }
+    });
+</script>
 </html>

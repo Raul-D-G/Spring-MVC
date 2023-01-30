@@ -1,13 +1,17 @@
 package com.springmvc.SpringMVC.services;
 
+import com.springmvc.SpringMVC.model.BillingId;
+import com.springmvc.SpringMVC.model.BillingModel;
 import com.springmvc.SpringMVC.model.InvoiceModel;
 import com.springmvc.SpringMVC.model.ProductModel;
+import com.springmvc.SpringMVC.repository.BillingRepository;
 import com.springmvc.SpringMVC.repository.InvoiceRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -17,18 +21,30 @@ public class InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
 
-    public void addProduct(@NotNull InvoiceModel invoice, ProductModel newProduct) {
+    @Autowired
+    BillingRepository billingRepository;
 
-        Set<ProductModel> oldProducts = invoice.getInvoiceProducts();
+    public void addProduct(@NotNull InvoiceModel invoice, ProductModel newProduct, String unit, int amount) {
 
-        if (oldProducts.contains(newProduct)) {
-            oldProducts.remove(newProduct);
-            invoice.setAmount(invoice.getAmount() + 1);
-            oldProducts.add(newProduct);
+
+        BillingModel billing = invoice.getBillings()
+                .stream()
+                .filter(b -> b.getProduct().equals(newProduct))
+                .findFirst()
+                .orElse(null);
+        if (billing != null) {
+            billing.setAmount(billing.getAmount() + 1);
         } else {
-            oldProducts.add(newProduct);
+            billing = new BillingModel();
+            BillingId id = new BillingId(invoice.getId(), newProduct.getId());
+            billing.setId(id);
+            billing.setInvoice(invoice);
+            billing.setProduct(newProduct);
+            billing.setUnit(unit);
+            billing.setAmount(amount != 0 ? amount : 1);
+            invoice.getBillings().add(billing);
+            newProduct.getBillings().add(billing);
         }
-        invoice.setInvoiceProducts(oldProducts);
-        invoiceRepository.save(invoice);
+        billingRepository.save(billing);
     }
 }

@@ -1,41 +1,38 @@
 //package com.springmvc.SpringMVC.SpringDW.models;
 //
 //import javax.persistence.*;
+//import javax.validation.constraints.Email;
 //import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.NotNull;
 //import javax.validation.constraints.Size;
 //import java.util.Set;
 //
 //@Entity
-//@Table(name = "clients_dim")
-//public class ClientsDim {
+//@Table(name = "companies_dim")
+//public class CompaniesDim {
 //
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Integer id;
 //
 //    @Column
-//    @NotEmpty(message = "Client name can not be empty")
-//    @Size(min = 3, message = "Client name can not be shorter than 3 characters")
+//    @NotEmpty(message = "Company name can not be empty")
+//    @Size(min = 5, message = "Company name can not be shorter than 5 characters")
+//    @NotNull
 //    private String name;
 //
 //    @Column
-//    @NotEmpty(message = "Client cui can not be empty")
-//    @Size(min = 5, message = "Client cui can not be shorter than 5 characters")
+//    @NotEmpty(message = "Company cui can not be empty")
+//    @Size(min = 5, message = "Company cui can not be shorter than 5 characters")
+//    @NotNull
 //    private String cui;
 //
-//    @OneToMany(mappedBy = "billingClient")
-//    private Set<BillingsFact> clientBillings;
+//    @OneToMany(mappedBy = "billingCompany")
+//    private Set<BillingsFact> companyBillings;
 //
-//    public ClientsDim() {
-//
+//    public CompaniesDim() {
 //    }
 //
-//    public ClientsDim(Integer id, String name, String cui, Set<BillingsFact> clientBillings) {
-//        this.id = id;
-//        this.name = name;
-//        this.cui = cui;
-//        this.clientBillings = clientBillings;
-//    }
 //
 //    public Integer getId() {
 //        return id;
@@ -53,6 +50,7 @@
 //        this.name = name;
 //    }
 //
+//
 //    public String getCui() {
 //        return cui;
 //    }
@@ -61,20 +59,21 @@
 //        this.cui = cui;
 //    }
 //
+//
+//    public Set<BillingsFact> getCompanyBillings() {
+//        return companyBillings;
+//    }
+//
+//    public void setCompanyBillings(Set<BillingsFact> companyBillings) {
+//        this.companyBillings = companyBillings;
+//    }
+//
 //    @Override
 //    public String toString() {
-//        return "ClientsDim{" +
+//        return "CompaniesDim{" +
 //                "id=" + id +
 //                ", name='" + name + '\'' +
 //                ", cui='" + cui + '\'' +
 //                '}';
-//    }
-//
-//    public Set<BillingsFact> getClientBillings() {
-//        return clientBillings;
-//    }
-//
-//    public void setClientBillings(Set<BillingsFact> clientBillings) {
-//        this.clientBillings = clientBillings;
 //    }
 //}

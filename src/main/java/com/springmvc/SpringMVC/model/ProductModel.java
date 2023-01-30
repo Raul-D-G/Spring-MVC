@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,18 +36,22 @@ public class ProductModel {
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel productCompany;
 
-    @ManyToMany(mappedBy = "invoiceProducts")
-    Set<InvoiceModel> productInvoices;
+//    @ManyToMany(mappedBy = "invoiceProducts")
+//    Set<InvoiceModel> productInvoices;
+
+    @OneToMany(mappedBy = "product")
+    private List<BillingModel> billings;
 
     public ProductModel() {
     }
 
-    public ProductModel(Integer id, String name, Float price, String category, CompanyModel productCompany) {
+    public ProductModel(Integer id, String name, Float price, String category, CompanyModel productCompany, List<BillingModel> billings) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.productCompany = productCompany;
+        this.billings = billings;
     }
 
     public Integer getId() {
@@ -89,12 +94,18 @@ public class ProductModel {
         this.productCompany = productCompany;
     }
 
-    public Set<InvoiceModel> getProductInvoices() {
-        return productInvoices;
+    public List<BillingModel> getBillings() {
+        return billings;
     }
 
-    public void setProductInvoices(Set<InvoiceModel> productInvoices) {
-        this.productInvoices = productInvoices;
+    public void setBillings(List<BillingModel> billings) {
+        this.billings = billings;
+    }
+
+    public void removeBilling(BillingModel billing) {
+        List<BillingModel> billings = this.getBillings();
+        billings.remove(billing);
+        this.setBillings(billings);
     }
 
     @Override

@@ -9,8 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "invoices")
@@ -52,19 +51,8 @@ public class InvoiceModel {
     @Min(1)
     private Integer tva;
 
-    @Column
-    @NotNull(message = "The amount of products for the invoice can not be 0")
-    @Min(value = 1, message = "At least one product is required")
-    private Integer amount;
-
-    @Column
-    @NotEmpty(message = "The product unit on the invoice can not be empty.")
-    @NotNull
-    @Size(min = 2, message = "Product unit can not be shorter than 2 characters")
-    private String unit;
-
     @ManyToOne
-    @JoinColumn(name = "exchage_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "exchange_id", referencedColumnName = "id", nullable = false)
     @NotNull(message = "Invoice exchange is required!")
     private ExchangeModel invoiceExchange;
 
@@ -74,18 +62,21 @@ public class InvoiceModel {
     private ClientModel invoiceClient;
 
     @ManyToOne
-    @JoinColumn(name = "compnay_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel invoiceCompany;
 
-    @ManyToMany
-    @JoinTable(
-            name = "billings",
-            joinColumns = @JoinColumn(name = "invoice_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    @NotNull(message = "Invoice product is required!")
-    Set<ProductModel> invoiceProducts;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "billings",
+//            joinColumns = @JoinColumn(name = "invoice_id"),
+//            inverseJoinColumns = @JoinColumn(name = "product_id"))
+//    @NotNull(message = "Invoice product is required!")
+//    Set<ProductModel> invoiceProducts;
 
-    public InvoiceModel(Integer id, String series, Integer number, Date issueDate, Date paymentDeadline, String delegate, Integer tva, Integer amount, String unit, ExchangeModel invoiceExchange, ClientModel invoiceClient, CompanyModel invoiceCompany) {
+    @OneToMany(mappedBy = "invoice")
+    private List<BillingModel> billings;
+
+    public InvoiceModel(Integer id, String series, Integer number, Date issueDate, Date paymentDeadline, String delegate, Integer tva, ExchangeModel invoiceExchange, ClientModel invoiceClient, CompanyModel invoiceCompany, List<BillingModel> billings) {
         this.id = id;
         this.series = series;
         this.number = number;
@@ -93,15 +84,16 @@ public class InvoiceModel {
         this.paymentDeadline = paymentDeadline;
         this.delegate = delegate;
         this.tva = tva;
-        this.amount = amount;
-        this.unit = unit;
         this.invoiceExchange = invoiceExchange;
         this.invoiceClient = invoiceClient;
         this.invoiceCompany = invoiceCompany;
+        this.billings = billings;
     }
 
     public InvoiceModel() {
+        this.billings = new ArrayList<BillingModel>();
     }
+
 
     public Integer getId() {
         return id;
@@ -183,35 +175,35 @@ public class InvoiceModel {
         this.invoiceCompany = invoiceCompany;
     }
 
+    public List<BillingModel> getBillings() {
+        return billings;
+    }
+
+    public void setBillings(List<BillingModel> billings) {
+        this.billings = billings;
+    }
+
     public Set<ProductModel> getInvoiceProducts() {
+        Set<ProductModel> invoiceProducts = new HashSet<>();
+
+        List<BillingModel> billings = getBillings();
+        if (billings != null) {
+            for (BillingModel billing : billings) {
+                ProductModel product = billing.getProduct();
+                invoiceProducts.add(product);
+            }
+        }
         return invoiceProducts;
-    }
-
-    public void setInvoiceProducts(Set<ProductModel> invoiceProducts) {
-        this.invoiceProducts = invoiceProducts;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public Float getPrice() {
         float totalPrice = 0;
-        for (ProductModel productModel : invoiceProducts) {
-            totalPrice += productModel.getPrice();
+
+        for (BillingModel billingModel : getBillings()) {
+            ProductModel product = billingModel.getProduct();
+            totalPrice += billingModel.getAmount() * product.getPrice();
         }
+
         return totalPrice;
     }
 
@@ -232,10 +224,19 @@ public class InvoiceModel {
         return getPrice() * getTva() / 100;
     }
 
-    public void addNewProduct(ProductModel product) {
-        Set<ProductModel> oldProducts = getInvoiceProducts();
-        oldProducts.add(product);
-        setInvoiceProducts(oldProducts);
+    public void addNewProduct(ProductModel product, String unit, int amount) {
+        BillingModel billing = new BillingModel();
+        billing.setUnit(unit);
+        billing.setAmount(amount);
+        billing.setInvoice(this);
+        billing.setProduct(product);
+        billings.add(billing);
+    }
+
+    public void removeBilling(BillingModel billing) {
+        List<BillingModel> billings = this.getBillings();
+        billings.remove(billing);
+        this.setBillings(billings);
     }
 
     @Override
@@ -248,8 +249,6 @@ public class InvoiceModel {
                 ", paymentDeadline=" + paymentDeadline +
                 ", delegate='" + delegate + '\'' +
                 ", tva=" + tva +
-                ", amount=" + amount +
-                ", unit='" + unit + '\'' +
                 ", invoiceExchange=" + invoiceExchange +
                 ", invoiceClient=" + invoiceClient +
                 ", invoiceCompany=" + invoiceCompany +

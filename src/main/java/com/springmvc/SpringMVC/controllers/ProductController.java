@@ -152,6 +152,7 @@ public class ProductController {
 
         ProductModel product = productRepository.findById(productId).get();
         product.setProductCompany(null);
+        product.setBillings(null);
         productRepository.deleteById(productId);
         redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
 

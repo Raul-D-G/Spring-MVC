@@ -17,7 +17,7 @@ public class ClientModel {
     @Column
     @NotEmpty(message = "Client name can not be empty")
     @NotNull
-    @Size(min = 3, max = 245, message = "Client name can not be shorter than 3 characters")
+    @Size(min = 3, max = 50, message = "Client name can not be shorter than 3 characters")
     private String name;
 
     @Column

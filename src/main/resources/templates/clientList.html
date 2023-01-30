@@ -26,8 +26,6 @@
                                 <p th:text="'CUI : ' + ${client.cui}" class="fw-bold mb-1"></p>
                             </div>
                         </div>
-                        <span th:text="'Mail : ' + ${client.name}"
-                              class="badge rounded-pill badge-success"></span>
                     </div>
                 </div>
                 <div
@@ -41,12 +39,12 @@
                             data-ripple-color="primary"
                     >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <a
-                            th:href="@{/deleteClient(clientId=${client.id})}"
-                            class="btn btn-link m-0 text-reset"
-                            href="#"
-                            role="button"
-                            data-ripple-color="primary"
+                    <a th:if="${client.getClientInvoices().isEmpty()}"
+                       th:href="@{/deleteClient(clientId=${client.id})}"
+                       class="btn btn-link m-0 text-reset"
+                       href="#"
+                       role="button"
+                       data-ripple-color="primary"
                     >Delete<i class="fa fa-trash" aria-hidden="true"></i>
                     </a>
                 </div>

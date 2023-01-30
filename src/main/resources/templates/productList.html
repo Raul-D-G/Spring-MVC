@@ -5,12 +5,11 @@
       layout:decorator="layout/template" lang="en">
 <head th:replace="layout/head :: head"></head>
 
-<body th:with="user=${user}">
-<body th:with="invoice=${invoice}">
+<body th:with="user=${user}, invoice=${invoice}">
 <div th:replace="layout/navbar :: navbar"></div>
 
 <div th:if="${invoice != null}" class="container">
-<h2>The products on the invoice:</h2>
+    <h2>The products on the invoice:</h2>
     <span th:text="'Series: ' + ${invoice.series}"
           class="badge rounded-pill badge-success"></span>
     <span th:text="'Nr. ' + ${invoice.number}"
@@ -25,7 +24,6 @@
         <select th:name="sortBy">
             <option value="price">Price</option>
             <option value="name">Name</option>
-            <!--            <option value="amount">Amount</option>-->
         </select>
         <button type="submit" class="btn btn-primary col-2">Search</button>
     </form>
@@ -47,14 +45,22 @@
                                                 aria-hidden="true"></i>
                                     </div>
                                 </div>
-                                <div th:if="${invoice != null}">
-                                    <p th:text="'Unit : ' + ${invoice.unit}" class="fw-bold mb-1"></p>
+                                <div th:if="${ invoice != null }">
+                                    <div th:each="billing : ${invoice.getBillings()}">
+                                        <span th:if="${billing.getProduct().getId() == product.id}"
+                                              th:text="'Unit : ' + ${billing.getUnit()}" class="fw-bold mb-1"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div th:if="${invoice != null}">
-                            <span th:text="'Amount : ' + ${invoice.amount}" class="badge rounded-pill badge-success"></span>
+                        <div th:if="${invoice != null }">
+                            <div th:each="billing : ${invoice.getBillings()}">
+                                <span th:if="${billing.getProduct().getId() == product.id}"
+                                      th:text="'Amount : ' + ${billing.getAmount()}"
+                                      class="badge rounded-pill badge-success"></span>
+                            </div>
                         </div>
+
                         <span th:text="'Category: ' + ${product.category}"
                               class="badge rounded-pill badge-success"></span>
                     </div>
@@ -70,14 +76,17 @@
                             data-ripple-color="primary"
                     >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <a
-                            th:href="@{/deleteProduct(productId=${product.id})}"
-                            class="btn btn-link m-0 text-reset"
-                            href="#"
-                            role="button"
-                            data-ripple-color="primary"
-                    >Delete<i class="fa fa-trash" aria-hidden="true"></i>
-                    </a>
+                    <div th:if="${product.getBillings().isEmpty()}">
+                        <a
+                                th:href="@{/deleteProduct(productId=${product.id})}"
+                                class="btn btn-link m-0 text-reset"
+                                href="#"
+                                role="button"
+                                data-ripple-color="primary"
+                        >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -90,12 +99,10 @@
         <select th:name="sortBy">
             <option value="price">Price</option>
             <option value="name">Name</option>
-            <option value="amount">Amount</option>
         </select>
         <button type="submit" class="btn btn-primary " th:name="page" th:value="${nextPage}">Next Page</button>
     </form>
 </div>
-
 
 <div th:if="${products.isEmpty() and user.company != null}" class="centered">
     <a
@@ -118,5 +125,6 @@
     >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
     </a>
 </div>
+
 </body>
 </html>

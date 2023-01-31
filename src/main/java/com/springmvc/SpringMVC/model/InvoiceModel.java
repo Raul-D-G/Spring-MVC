@@ -28,6 +28,7 @@ public class InvoiceModel {
 
     @Column(name = "invoice_number")
     @NotNull(message = "Invoice number is required!")
+    @Min(0)
     private Integer number;
 
     @Column(name = "issue_date")
@@ -65,14 +66,6 @@ public class InvoiceModel {
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private CompanyModel invoiceCompany;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "billings",
-//            joinColumns = @JoinColumn(name = "invoice_id"),
-//            inverseJoinColumns = @JoinColumn(name = "product_id"))
-//    @NotNull(message = "Invoice product is required!")
-//    Set<ProductModel> invoiceProducts;
 
     @OneToMany(mappedBy = "invoice")
     private List<BillingModel> billings;

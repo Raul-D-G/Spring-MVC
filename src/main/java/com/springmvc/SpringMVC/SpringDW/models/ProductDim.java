@@ -1,4 +1,7 @@
-package com.springmvc.SpringMVC.model;
+package com.springmvc.SpringMVC.SpringDW.models;
+
+import com.springmvc.SpringMVC.model.BillingModel;
+import com.springmvc.SpringMVC.model.CompanyModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -6,14 +9,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "products")
-public class ProductModel {
+@Table(name = "products_dim")
+public class ProductDim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column
     @NotEmpty(message = "Product name can not be empty")
@@ -33,28 +37,29 @@ public class ProductModel {
 
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyModel productCompany;
+    private CompanyDim company;
 
-    @OneToMany(mappedBy = "product")
-    private List<BillingModel> billings;
+    @OneToMany(mappedBy = "billingProduct")
+    private List<BillingsFact> billings;
 
-    public ProductModel() {
+
+    public ProductDim() {
     }
 
-    public ProductModel(Integer id, String name, Float price, String category, CompanyModel productCompany, List<BillingModel> billings) {
+    public ProductDim(int id, String name, Float price, String category, CompanyDim company, List<BillingsFact> billings) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
-        this.productCompany = productCompany;
+        this.company = company;
         this.billings = billings;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -82,35 +87,30 @@ public class ProductModel {
         this.category = category;
     }
 
-    public CompanyModel getProductCompany() {
-        return productCompany;
+    public CompanyDim getCompany() {
+        return company;
     }
 
-    public void setProductCompany(CompanyModel productCompany) {
-        this.productCompany = productCompany;
+    public void setCompany(CompanyDim company) {
+        this.company = company;
     }
 
-    public List<BillingModel> getBillings() {
+    public List<BillingsFact> getBillings() {
         return billings;
     }
 
-    public void setBillings(List<BillingModel> billings) {
+    public void setBillings(List<BillingsFact> billings) {
         this.billings = billings;
-    }
-
-    public void removeBilling(BillingModel billing) {
-        List<BillingModel> billings = this.getBillings();
-        billings.remove(billing);
-        this.setBillings(billings);
     }
 
     @Override
     public String toString() {
-        return "ProductModel{" +
+        return "ProductDim{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", category='" + category + '\'' +
+                ", company=" + company +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ public class ProductDim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column
     @NotEmpty(message = "Product name can not be empty")

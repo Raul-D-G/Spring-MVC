@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <!-- Adăugați dependința de chart.js în fișierul head -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+</head>
+<body>
+<!-- Creați un canvas unde va fi desenat graficul -->
+
+<div class="container"><a th:href="@{/home}" class="pb-4">Back home</a></div>
+<canvas id="myChart"></canvas>
+<span id="data" th:text="${data}" style="display: none;"></span>
+
+
+<script>
+    // Obțineți datele din repository-ul JPA
+    const data = JSON.parse(document.getElementById('data').innerHTML)
+
+
+    var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+    for (var i = 0; i < months.length; i++) {
+        var found = false;
+        for (var j = 0; j < data.length; j++) {
+            if (data[j][0] === months[i]) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            data.push([months[i], 0]);
+        }
+    }
+
+    function compare(a, b) {
+        return months.indexOf(a[0]) - months.indexOf(b[0]);
+    }
+
+    // Sortează array-ul folosind funcția comparator
+    data.sort(compare);
+
+    const labels = [];
+    const values = [];
+    data.forEach(element => {
+        labels.push(element[0]);
+        values.push(element[1]);
+    });
+
+
+    // Creeaza un grafic cu bara
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, // Adauga etichetele pe axa x
+            datasets: [{
+                label: 'Number of products',
+                data: values, // Adauga valorile pe axa y
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

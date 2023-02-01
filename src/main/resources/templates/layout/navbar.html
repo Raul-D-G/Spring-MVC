@@ -73,9 +73,14 @@
                            th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/mostInvoicedProducts-year}">The most purchased products per year</a>
                         <div class="dropdown-divider"></div>
+
                         <a class="dropdown-item"
                            th:if="${user.company != null and user.company.id != null}"
-                           th:href="@{/showCompanyUpdateForm(userName=${session.userName.toString()})}">Edit your Company</a>
+                           th:href="@{/mostExpensiveProducts-ro}">The most expensive product in the RO category</a>
+
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/mostExpensiveProducts-ue}">The most expensive product in the UE category</a>
 
 
                     </div>

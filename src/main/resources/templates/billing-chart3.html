@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/template" lang="en">
+<head th:replace="layout/head :: head"></head>
+<body>
+<!-- Creați un canvas unde va fi desenat graficul -->
+
+<div class="container">
+
+    <h2 class="text-center" id="category"></h2>
+
+    <canvas id="myChart"></canvas>
+    <span id="data" th:text="${data}" style="display: none;"></span>
+
+    <a th:href="@{/home}" class="pb-4">Back home</a>
+</div>
+
+
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = JSON.parse(document.getElementById('data').innerHTML)
+
+    document.getElementById("category").innerHTML = data[0][0];
+
+
+    const labels = [];
+    const values = [];
+    data.forEach(element => {
+        if (element[3] === element [1]) {
+            labels.push(element[1] + " is the most EXPENSIVE!");
+            values.push(element[2]);
+        }
+        labels.push(element[1]);
+        values.push(element[2]);
+    });
+
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(28,35,15,0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(28,35,15,0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

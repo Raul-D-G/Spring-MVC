@@ -28,6 +28,7 @@ public class ExchangeDim {
     private Float rates;
 
     @OneToMany(mappedBy = "billingExchange")
+//    @JoinColumn(name = "exchange_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Set<BillingsFact> exchangeBillings;
 
     public ExchangeDim() {

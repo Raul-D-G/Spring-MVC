@@ -23,9 +23,6 @@ public class ClientDim {
     @Size(min = 5, message = "Client cui can not be shorter than 5 characters")
     private String cui;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyDim company;
 
     @Column(name = "nr_invoices")
     private Integer nrInvoices;
@@ -34,16 +31,21 @@ public class ClientDim {
     @OneToMany(mappedBy = "billingClient")
     private Set<BillingsFact> clientBillings;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private CompanyDim clientCompany;
+
     public ClientDim() {
 
     }
 
-    public ClientDim(Integer id, String name, String cui, Integer nrInvoices, Set<BillingsFact> clientBillings) {
+    public ClientDim(Integer id, String name, String cui, Integer nrInvoices, Set<BillingsFact> clientBillings, CompanyDim clientCompany) {
         this.id = id;
         this.name = name;
         this.cui = cui;
         this.nrInvoices = nrInvoices;
         this.clientBillings = clientBillings;
+        this.clientCompany = clientCompany;
     }
 
     public Integer getId() {
@@ -78,21 +80,29 @@ public class ClientDim {
         this.nrInvoices = nrInvoices;
     }
 
-    @Override
-    public String toString() {
-        return "ClientsDim{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", cui='" + cui + '\'' +
-                ", nrInvoices=" + nrInvoices +
-                '}';
-    }
-
     public Set<BillingsFact> getClientBillings() {
         return clientBillings;
     }
 
     public void setClientBillings(Set<BillingsFact> clientBillings) {
         this.clientBillings = clientBillings;
+    }
+
+    public CompanyDim getClientCompany() {
+        return clientCompany;
+    }
+
+    public void setClientCompany(CompanyDim clientCompany) {
+        this.clientCompany = clientCompany;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientDim{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cui='" + cui + '\'' +
+                ", nrInvoices=" + nrInvoices +
+                '}';
     }
 }

@@ -27,23 +27,25 @@ public class TimeDim {
     private String day;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private InvoiceDim invoice;
 
-    @OneToMany(mappedBy = "time")
-    private List<BillingsFact> billings;
+    @OneToMany(mappedBy = "billingTime")
+//    @JoinColumn(name = "time_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private List<BillingsFact> timeBillings;
 
     public TimeDim() {
     }
 
-    public TimeDim(Integer id, String year, String quarter, String month, String day, List<BillingsFact> billings) {
+    public TimeDim(Integer id, String year, String quarter, String month, String day, InvoiceDim invoice, List<BillingsFact> timeBillings) {
         this.id = id;
         this.year = year;
         this.quarter = quarter;
         this.month = month;
         this.day = day;
-        this.billings = billings;
+        this.invoice = invoice;
+        this.timeBillings = timeBillings;
     }
 
     public Integer getId() {
@@ -86,12 +88,20 @@ public class TimeDim {
         this.day = day;
     }
 
-    public List<BillingsFact> getBillings() {
-        return billings;
+    public InvoiceDim getInvoice() {
+        return invoice;
     }
 
-    public void setBillings(List<BillingsFact> billings) {
-        this.billings = billings;
+    public void setInvoice(InvoiceDim invoice) {
+        this.invoice = invoice;
+    }
+
+    public List<BillingsFact> getTimeBillings() {
+        return timeBillings;
+    }
+
+    public void setTimeBillings(List<BillingsFact> timeBillings) {
+        this.timeBillings = timeBillings;
     }
 
     @Override

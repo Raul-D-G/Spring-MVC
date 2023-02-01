@@ -1,12 +1,12 @@
 package com.springmvc.SpringMVC.SpringDW.models;
 
-import com.springmvc.SpringMVC.model.CompanyModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "invoices_dim")
@@ -27,8 +27,6 @@ public class InvoiceDim {
     @Min(0)
     private Integer number;
 
-    @OneToOne(mappedBy = "invoice")
-    private TimeDim time;
 
     @Column
     @NotNull(message = "Invoice tva can not be 0!")
@@ -38,9 +36,6 @@ public class InvoiceDim {
     @Column(name = "nr_products")
     private Integer nrProducts;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyDim invoiceCompany;
 
     @Column(name = "invoice_price")
     @NotNull(message = "Product price can not be 0")
@@ -52,19 +47,31 @@ public class InvoiceDim {
     @Min(0)
     private Float tvaPrice;
 
+    @OneToOne(mappedBy = "invoice")
+    private TimeDim invoiceTime;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private CompanyDim invoiceCompany;
+
+    @OneToMany(mappedBy = "billingInvoice")
+//    @JoinColumn(name = "invoice_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Set<BillingsFact> invoiceBillings;
+
     public InvoiceDim() {
     }
 
-    public InvoiceDim(Integer id, String series, Integer number, TimeDim time, Integer tva, Integer nrProducts, CompanyDim invoiceCompany, Float invoicePrice, Float tvaPrice) {
+    public InvoiceDim(Integer id, String series, Integer number, Integer tva, Integer nrProducts, Float invoicePrice, Float tvaPrice, TimeDim invoiceTime, CompanyDim invoiceCompany, Set<BillingsFact> invoiceBillings) {
         this.id = id;
         this.series = series;
         this.number = number;
-        this.time = time;
         this.tva = tva;
         this.nrProducts = nrProducts;
-        this.invoiceCompany = invoiceCompany;
         this.invoicePrice = invoicePrice;
         this.tvaPrice = tvaPrice;
+        this.invoiceTime = invoiceTime;
+        this.invoiceCompany = invoiceCompany;
+        this.invoiceBillings = invoiceBillings;
     }
 
     public Integer getId() {
@@ -91,14 +98,6 @@ public class InvoiceDim {
         this.number = number;
     }
 
-    public TimeDim getTime() {
-        return time;
-    }
-
-    public void setTime(TimeDim time) {
-        this.time = time;
-    }
-
     public Integer getTva() {
         return tva;
     }
@@ -113,14 +112,6 @@ public class InvoiceDim {
 
     public void setNrProducts(Integer nrProducts) {
         this.nrProducts = nrProducts;
-    }
-
-    public CompanyDim getInvoiceCompany() {
-        return invoiceCompany;
-    }
-
-    public void setInvoiceCompany(CompanyDim invoiceCompany) {
-        this.invoiceCompany = invoiceCompany;
     }
 
     public Float getInvoicePrice() {
@@ -139,16 +130,38 @@ public class InvoiceDim {
         this.tvaPrice = tvaPrice;
     }
 
+    public TimeDim getInvoiceTime() {
+        return invoiceTime;
+    }
+
+    public void setInvoiceTime(TimeDim invoiceTime) {
+        this.invoiceTime = invoiceTime;
+    }
+
+    public CompanyDim getInvoiceCompany() {
+        return invoiceCompany;
+    }
+
+    public void setInvoiceCompany(CompanyDim invoiceCompany) {
+        this.invoiceCompany = invoiceCompany;
+    }
+
+    public Set<BillingsFact> getInvoiceBillings() {
+        return invoiceBillings;
+    }
+
+    public void setInvoiceBillings(Set<BillingsFact> invoiceBillings) {
+        this.invoiceBillings = invoiceBillings;
+    }
+
     @Override
     public String toString() {
         return "InvoiceDim{" +
                 "id=" + id +
                 ", series='" + series + '\'' +
                 ", number=" + number +
-                ", time=" + time +
                 ", tva=" + tva +
                 ", nrProducts=" + nrProducts +
-                ", invoiceCompany=" + invoiceCompany +
                 ", invoicePrice=" + invoicePrice +
                 ", tvaPrice=" + tvaPrice +
                 '}';

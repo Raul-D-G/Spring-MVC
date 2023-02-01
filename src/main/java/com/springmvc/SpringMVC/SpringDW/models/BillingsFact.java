@@ -35,35 +35,35 @@ public class BillingsFact {
     private Float priceWTva;
 
     @ManyToOne
-    @JoinColumn(name = "exchange_id", referencedColumnName = "id", nullable = false)
     @NotNull(message = "Invoice exchange is required!")
+    @JoinColumn(name = "exchange_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ExchangeDim billingExchange;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @NotNull(message = "Invoice client is required!")
     private ClientDim billingClient;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private CompanyDim billingCompany;
 
     @ManyToOne
-    @JoinColumn(name = "time_id", referencedColumnName = "id", nullable = false)
-    private TimeDim time;
+    @JoinColumn(name = "time_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private TimeDim billingTime;
 
     @ManyToOne
-    @JoinColumn(name = "invoice_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private InvoiceDim billingInvoice;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ProductDim billingProduct;
 
     public BillingsFact() {
     }
 
-    public BillingsFact(Integer id, Integer amount, String unit, Float price, Float priceWTva, ExchangeDim billingExchange, ClientDim billingClient, CompanyDim billingCompany, TimeDim time, InvoiceDim billingInvoice, ProductDim billingProduct) {
+    public BillingsFact(Integer id, Integer amount, String unit, Float price, Float priceWTva, ExchangeDim billingExchange, ClientDim billingClient, CompanyDim billingCompany, TimeDim billingTime, InvoiceDim billingInvoice, ProductDim billingProduct) {
         this.id = id;
         this.amount = amount;
         this.unit = unit;
@@ -72,7 +72,7 @@ public class BillingsFact {
         this.billingExchange = billingExchange;
         this.billingClient = billingClient;
         this.billingCompany = billingCompany;
-        this.time = time;
+        this.billingTime = billingTime;
         this.billingInvoice = billingInvoice;
         this.billingProduct = billingProduct;
     }
@@ -141,12 +141,12 @@ public class BillingsFact {
         this.billingCompany = billingCompany;
     }
 
-    public TimeDim getTime() {
-        return time;
+    public TimeDim getBillingTime() {
+        return billingTime;
     }
 
-    public void setTime(TimeDim time) {
-        this.time = time;
+    public void setBillingTime(TimeDim billingTime) {
+        this.billingTime = billingTime;
     }
 
     public InvoiceDim getBillingInvoice() {

@@ -36,30 +36,31 @@ public class ProductDim {
     private String category;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyDim company;
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private CompanyDim productCompany;
 
     @OneToMany(mappedBy = "billingProduct")
-    private List<BillingsFact> billings;
+//    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private List<BillingsFact> productBillings;
 
 
     public ProductDim() {
     }
 
-    public ProductDim(int id, String name, Float price, String category, CompanyDim company, List<BillingsFact> billings) {
+    public ProductDim(Integer id, String name, Float price, String category, CompanyDim productCompany, List<BillingsFact> productBillings) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
-        this.company = company;
-        this.billings = billings;
+        this.productCompany = productCompany;
+        this.productBillings = productBillings;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -87,20 +88,20 @@ public class ProductDim {
         this.category = category;
     }
 
-    public CompanyDim getCompany() {
-        return company;
+    public CompanyDim getProductCompany() {
+        return productCompany;
     }
 
-    public void setCompany(CompanyDim company) {
-        this.company = company;
+    public void setProductCompany(CompanyDim productCompany) {
+        this.productCompany = productCompany;
     }
 
-    public List<BillingsFact> getBillings() {
-        return billings;
+    public List<BillingsFact> getProductBillings() {
+        return productBillings;
     }
 
-    public void setBillings(List<BillingsFact> billings) {
-        this.billings = billings;
+    public void setProductBillings(List<BillingsFact> productBillings) {
+        this.productBillings = productBillings;
     }
 
     @Override
@@ -110,7 +111,6 @@ public class ProductDim {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", category='" + category + '\'' +
-                ", company=" + company +
                 '}';
     }
 }

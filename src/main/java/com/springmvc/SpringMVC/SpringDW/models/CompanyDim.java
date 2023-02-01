@@ -32,28 +32,35 @@ public class CompanyDim {
     private Integer nrInvoices;
 
 
-    @OneToMany(mappedBy = "company")
-    private Set<ClientDim> clientsDim;
+    @OneToMany(mappedBy = "clientCompany")
+//    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Set<ClientDim> companyClients;
 
     @OneToMany(mappedBy = "billingCompany")
+//    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Set<BillingsFact> companyBillings;
 
-    @OneToMany(mappedBy = "company")
-    private Set<ProductDim> products;
+    @OneToMany(mappedBy = "productCompany")
+//    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Set<ProductDim> companyProducts;
 
     @OneToMany(mappedBy = "invoiceCompany")
-    private Set<InvoiceDim> invoices;
+//    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Set<InvoiceDim> companyInvoices;
 
 
     public CompanyDim() {
     }
 
-    public CompanyDim(Integer id, String name, String cui, Integer nrInvoices, Set<BillingsFact> companyBillings) {
+    public CompanyDim(Integer id, String name, String cui, Integer nrInvoices, Set<ClientDim> companyClients, Set<BillingsFact> companyBillings, Set<ProductDim> companyProducts, Set<InvoiceDim> companyInvoices) {
         this.id = id;
         this.name = name;
         this.cui = cui;
         this.nrInvoices = nrInvoices;
+        this.companyClients = companyClients;
         this.companyBillings = companyBillings;
+        this.companyProducts = companyProducts;
+        this.companyInvoices = companyInvoices;
     }
 
     public Integer getId() {
@@ -72,22 +79,12 @@ public class CompanyDim {
         this.name = name;
     }
 
-
     public String getCui() {
         return cui;
     }
 
     public void setCui(String cui) {
         this.cui = cui;
-    }
-
-
-    public Set<BillingsFact> getCompanyBillings() {
-        return companyBillings;
-    }
-
-    public void setCompanyBillings(Set<BillingsFact> companyBillings) {
-        this.companyBillings = companyBillings;
     }
 
     public Integer getNrInvoices() {
@@ -98,9 +95,41 @@ public class CompanyDim {
         this.nrInvoices = nrInvoices;
     }
 
+    public Set<ClientDim> getCompanyClients() {
+        return companyClients;
+    }
+
+    public void setCompanyClients(Set<ClientDim> companyClients) {
+        this.companyClients = companyClients;
+    }
+
+    public Set<BillingsFact> getCompanyBillings() {
+        return companyBillings;
+    }
+
+    public void setCompanyBillings(Set<BillingsFact> companyBillings) {
+        this.companyBillings = companyBillings;
+    }
+
+    public Set<ProductDim> getCompanyProducts() {
+        return companyProducts;
+    }
+
+    public void setCompanyProducts(Set<ProductDim> companyProducts) {
+        this.companyProducts = companyProducts;
+    }
+
+    public Set<InvoiceDim> getCompanyInvoices() {
+        return companyInvoices;
+    }
+
+    public void setCompanyInvoices(Set<InvoiceDim> companyInvoices) {
+        this.companyInvoices = companyInvoices;
+    }
+
     @Override
     public String toString() {
-        return "CompaniesDim{" +
+        return "CompanyDim{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cui='" + cui + '\'' +

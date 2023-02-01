@@ -7,55 +7,60 @@
 <div class="container">
     <canvas id="myChart"></canvas>
     <span id="data" th:text="${data}" style="display: none;"></span>
-    <a th:href="@{/home}" class="pb-4">Back home</a></div>
-
+    <a th:href="@{/home}" class="pb-4">Back home</a>
+</div>
 
 <script>
-    // Obțineți datele din repository-ul JPA
+    const ctx = document.getElementById('myChart').getContext('2d');
+
     const data = JSON.parse(document.getElementById('data').innerHTML)
 
+    const quarters = ["Q1", "Q2", "Q3", "Q4"];
 
-    var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-    for (var i = 0; i < months.length; i++) {
-        var found = false;
-        for (var j = 0; j < data.length; j++) {
-            if (data[j][0] === months[i]) {
+    for (let i = 0; i < quarters.length; i++) {
+        let found = false;
+        let index = 0;
+        for (let j = 0; j < data.length; j++) {
+            if (data[j][1] === quarters[i]) {
                 found = true;
                 break;
             }
+            index = j;
         }
         if (!found) {
-            data.push([months[i], 0]);
+            data.push([2, quarters[i], 0, data[index][3]]);
         }
     }
 
     function compare(a, b) {
-        return months.indexOf(a[0]) - months.indexOf(b[0]);
+        return quarters.indexOf(a[1]) - quarters.indexOf(b[1]);
     }
 
     // Sortează array-ul folosind funcția comparator
     data.sort(compare);
-
+    //
     const labels = [];
     const values = [];
     data.forEach(element => {
-        labels.push(element[0]);
-        values.push(element[1]);
+        labels.push(element[1] + " Vanzari cumulate = " + element[3]);
+        values.push(element[2]);
     });
 
 
-    // Creeaza un grafic cu bara
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'bar',
+    const myChart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: labels, // Adauga etichetele pe axa x
+            labels: labels,
             datasets: [{
-                label: 'Number of products',
-                data: values, // Adauga valorile pe axa y
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                label: 'Vânzări',
+                data: values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
                 borderWidth: 1
             }]
         },

@@ -82,6 +82,11 @@
                            th:if="${user.company != null and user.company.id != null}"
                            th:href="@{/mostExpensiveProducts-ue}">The most expensive product in the UE category</a>
 
+                        <a class="dropdown-item"
+                           th:if="${user.role == 'ADMIN'}"
+                           th:href="@{/clientStatistic-admin}"
+                        >Company statistic</a>
+
 
                     </div>
                 </li>

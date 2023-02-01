@@ -11,10 +11,19 @@ public interface BillingsFactRepository extends JpaRepository<BillingsFact, Inte
 
 
     @Query(value = "SELECT time_dim.month, SUM(billings_fact.product_amount) as total_products " +
+            " FROM billings_fact " +
+            " JOIN time_dim ON billings_fact.time_id = time_dim.id " +
+            " WHERE time_dim.year = :year " +
+            " GROUP BY time_dim.month", nativeQuery = true)
+    List<Object[]> findTotalBillingPerMonth(@Param("year") String year);
+
+
+    @Query(value = "SELECT products.name, SUM(billings_fact.product_amount) AS total_units_sold " +
             "FROM billings_fact " +
+            "JOIN products ON billings_fact.product_id = products.id " +
             "JOIN time_dim ON billings_fact.time_id = time_dim.id " +
             "WHERE time_dim.year = :year " +
-            "GROUP BY time_dim.month", nativeQuery = true)
-    List<Object[]> findTotalBillingPerMonth(@Param("year") String year);
+            "GROUP BY products.name ORDER BY total_units_sold DESC", nativeQuery = true)
+    List<Object[]> findMostInvoicedProductsYear(@Param("year") String year);
 
 }

@@ -26,4 +26,15 @@ public class BillingsFactController {
 
         return "billing-chart1";
     }
+
+    @GetMapping("/mostInvoicedProducts-year")
+    public String getMostInvoicedProducts(Model model) throws JsonProcessingException {
+        List<Object[]> data = billingsFactRepository.findMostInvoicedProductsYear("2023");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String dataJson = objectMapper.writeValueAsString(data);
+        model.addAttribute("data", dataJson);
+
+        return "billing-chart2";
+    }
 }

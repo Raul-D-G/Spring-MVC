@@ -1,18 +1,13 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.CompanyModel;
-import com.springmvc.SpringMVC.model.InvoiceModel;
-import com.springmvc.SpringMVC.model.ProductModel;
-import com.springmvc.SpringMVC.model.UserModel;
-import com.springmvc.SpringMVC.repository.CompanyRepository;
-import com.springmvc.SpringMVC.repository.InvoiceRepository;
-import com.springmvc.SpringMVC.repository.ProductRepository;
-import com.springmvc.SpringMVC.repository.UserRepository;
+import com.springmvc.SpringMVC.model.firstDB.CompanyModel;
+import com.springmvc.SpringMVC.model.firstDB.ProductModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
+import com.springmvc.SpringMVC.repository.firstDB.*;
 import com.springmvc.SpringMVC.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -28,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Controller
 public class ProductController {

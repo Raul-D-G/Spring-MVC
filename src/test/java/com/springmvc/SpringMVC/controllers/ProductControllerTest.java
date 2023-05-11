@@ -1,6 +1,6 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
 import com.springmvc.SpringMVC.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

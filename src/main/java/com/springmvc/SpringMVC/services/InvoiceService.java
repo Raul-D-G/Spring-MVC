@@ -1,18 +1,15 @@
 package com.springmvc.SpringMVC.services;
 
-import com.springmvc.SpringMVC.model.BillingId;
-import com.springmvc.SpringMVC.model.BillingModel;
-import com.springmvc.SpringMVC.model.InvoiceModel;
-import com.springmvc.SpringMVC.model.ProductModel;
-import com.springmvc.SpringMVC.repository.BillingRepository;
-import com.springmvc.SpringMVC.repository.InvoiceRepository;
+import com.springmvc.SpringMVC.model.firstDB.BillingId;
+import com.springmvc.SpringMVC.model.firstDB.BillingModel;
+import com.springmvc.SpringMVC.model.firstDB.InvoiceModel;
+import com.springmvc.SpringMVC.model.firstDB.ProductModel;
+import com.springmvc.SpringMVC.repository.firstDB.BillingRepository;
+import com.springmvc.SpringMVC.repository.firstDB.InvoiceRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional

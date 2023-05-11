@@ -1,9 +1,8 @@
 package com.springmvc.SpringMVC.services;
 
 import com.springmvc.SpringMVC.exception.UserAlreadyExistException;
-import com.springmvc.SpringMVC.model.UserModel;
-import com.springmvc.SpringMVC.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
+import com.springmvc.SpringMVC.repository.firstDB.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

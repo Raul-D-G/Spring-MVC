@@ -1,7 +1,7 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.UserModel;
-import com.springmvc.SpringMVC.repository.UserRepository;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
+import com.springmvc.SpringMVC.repository.firstDB.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

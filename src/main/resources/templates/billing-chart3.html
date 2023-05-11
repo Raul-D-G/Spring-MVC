@@ -33,9 +33,10 @@
         if (element[3] === element [1]) {
             labels.push(element[1] + " is the most EXPENSIVE!");
             values.push(element[2]);
+        } else {
+            labels.push(element[1]);
+            values.push(element[2]);
         }
-        labels.push(element[1]);
-        values.push(element[2]);
     });
 
     var myChart = new Chart(ctx, {

@@ -1,6 +1,6 @@
 package com.springmvc.SpringMVC.services;
 
-import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/template" lang="en">
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}, invoice=${invoice}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div th:if="${invoice != null}" class="container">
+    <h2>The products on the invoice:</h2>
+    <span th:text="'Series: ' + ${invoice.series}"
+          class="badge rounded-pill badge-success"></span>
+    <span th:text="'Nr. ' + ${invoice.number}"
+          class="badge rounded-pill badge-success"></span>
+</div>
+
+<div th:if="${!products.isEmpty()}" class="container productList">
+
+    <p>Order by: </p>
+    <form th:action="@{/products}" method="get">
+        <input type="hidden" th:name="userName" th:field="${user.userName}"/>
+        <select th:name="sortBy">
+            <option value="price">Price</option>
+            <option value="name">Name</option>
+        </select>
+        <button type="submit" class="btn btn-primary col-2">Search</button>
+    </form>
+
+    <div class="row">
+        <div th:each="product : ${products}" class="col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-shopping-cart fa-lg me-3 fa-fw" style="width: 45px; height: 45px"></i>
+                            <div class="ms-3">
+                                <p th:text="${product.name}" class="fw-bold mb-1"></p>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <p th:text="'Price = ' + ${product.price}" class="text-muted mb-0"></p>
+                                    <div class="text-center">
+                                        <i
+                                                class="fa fa-eur me-3 fa-fw text-muted"
+                                                aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div th:if="${ invoice != null }">
+                                    <div th:each="billing : ${invoice.getBillings()}">
+                                        <span th:if="${billing.getProduct().getId() == product.id}"
+                                              th:text="'Unit : ' + ${billing.getUnit()}" class="fw-bold mb-1"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${invoice != null }">
+                            <div th:each="billing : ${invoice.getBillings()}">
+                                <span th:if="${billing.getProduct().getId() == product.id}"
+                                      th:text="'Amount : ' + ${billing.getAmount()}"
+                                      class="badge rounded-pill badge-success"></span>
+                            </div>
+                        </div>
+
+                        <span th:text="'Category: ' + ${product.category}"
+                              class="badge rounded-pill badge-success"></span>
+                    </div>
+                </div>
+                <div
+                        class="card-footer border-0 bg-light p-2 d-flex justify-content-around"
+                >
+                    <a
+                            th:href="@{/showUpdateForm(productId=${product.id})}"
+                            class="btn btn-link m-0 text-reset"
+                            href="#"
+                            role="button"
+                            data-ripple-color="primary"
+                    >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <div th:if="${product.getBillings().isEmpty()}">
+                        <a
+                                th:href="@{/deleteProduct(productId=${product.id})}"
+                                class="btn btn-link m-0 text-reset"
+                                href="#"
+                                role="button"
+                                data-ripple-color="primary"
+                        >Delete<i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${products.size() == 4}" class=" container center-block">
+    <form th:action="@{/productsro}">
+        <input type="hidden" th:name="userName" th:field="${user.userName}"/>
+        <select th:name="sortBy">
+            <option value="price">Price</option>
+            <option value="name">Name</option>
+        </select>
+        <button type="submit" class="btn btn-primary " th:name="page" th:value="${nextPage}">Next Page</button>
+    </form>
+</div>
+
+<div th:if="${products.isEmpty() and user.company != null}" class="centered">
+    <a
+            th:href="@{/addProductForm(userName=${session.userName.toString()})}"
+            class="btn btn-info m-0 text-reset"
+            href="#"
+            role="button"
+            data-ripple-color="primary"
+    >Add Product<i class="fa fa-shopping-basket ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+
+<div th:unless="${user.company}" class="centered">
+    <a
+            th:href="@{/addCompanyForm(userId=${user.id})}"
+            class="btn btn-info m-0 text-reset"
+            href="#"
+            role="button"
+            data-ripple-color="primary"
+    >Add Company<i class="fa fa-university ml-3" aria-hidden="true"></i>
+    </a>
+</div>
+
+</body>
+</html>

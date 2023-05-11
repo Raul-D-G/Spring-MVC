@@ -1,7 +1,7 @@
 package com.springmvc.SpringMVC.controllers;
 
 import com.springmvc.SpringMVC.exception.UserAlreadyExistException;
-import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
 import com.springmvc.SpringMVC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

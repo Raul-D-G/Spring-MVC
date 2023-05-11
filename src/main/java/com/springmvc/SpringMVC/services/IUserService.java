@@ -1,7 +1,7 @@
 package com.springmvc.SpringMVC.services;
 
 import com.springmvc.SpringMVC.exception.UserAlreadyExistException;
-import com.springmvc.SpringMVC.model.UserModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
 
 public interface IUserService {
     void register(final UserModel user) throws UserAlreadyExistException;

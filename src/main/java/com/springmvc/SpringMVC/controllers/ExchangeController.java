@@ -1,12 +1,9 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.CompanyModel;
-import com.springmvc.SpringMVC.model.ExchangeModel;
-import com.springmvc.SpringMVC.model.ProductModel;
-import com.springmvc.SpringMVC.model.UserModel;
-import com.springmvc.SpringMVC.repository.CompanyRepository;
-import com.springmvc.SpringMVC.repository.ExchangeRepository;
-import com.springmvc.SpringMVC.repository.UserRepository;
+import com.springmvc.SpringMVC.model.firstDB.ExchangeModel;
+import com.springmvc.SpringMVC.model.firstDB.UserModel;
+import com.springmvc.SpringMVC.repository.firstDB.ExchangeRepository;
+import com.springmvc.SpringMVC.repository.firstDB.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

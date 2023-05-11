@@ -1,7 +1,7 @@
 package com.springmvc.SpringMVC.services;
 
-import com.springmvc.SpringMVC.model.ProductModel;
-import com.springmvc.SpringMVC.repository.ProductRepository;
+import com.springmvc.SpringMVC.model.firstDB.ProductModel;
+import com.springmvc.SpringMVC.repository.firstDB.ProductRepository;
 import com.springmvc.SpringMVC.services.interfaces.iProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

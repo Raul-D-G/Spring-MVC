@@ -90,6 +90,37 @@
 
                     </div>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMODBD" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        MODBD
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/productsro(userName=${session.userName.toString()})}">Vezi produsele din RO</a>
+
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/productseu(userName=${session.userName.toString()})}">Vezi produsele din EU</a>
+
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/productsgb(userName=${session.userName.toString()})}">Vezi produsele global</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/addROProductForm(userName=${session.userName.toString()})}">Add produs in RO</a>
+
+                        <a class="dropdown-item"
+                           th:if="${user.company != null and user.company.id != null}"
+                           th:href="@{/addEUProductForm(userName=${session.userName.toString()})}">Add produs in EU</a>
+
+                    </div>
+                </li>
             </ul>
             <div class="my-2 my-lg-0">
                 <a class="btn btn-outline-danger" href="/logout" />Logout</a>

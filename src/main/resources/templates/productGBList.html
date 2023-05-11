@@ -15,10 +15,10 @@
     <span th:text="'Nr. ' + ${invoice.number}"
           class="badge rounded-pill badge-success"></span>
 </div>
-<h1 style="text-align: center; margin-top: 30px; margin-bottom: 20px; border: 2px solid #ccc; padding: 10px; border-radius: 10px;">
-    Produse din Romania!</h1>
 
-<div th:if="${!products.isEmpty()}" class="container productList">
+<h1 style="text-align: center; margin-top: 30px; margin-bottom: 20px; border: 2px solid #ccc; padding: 10px; border-radius: 10px;">
+    Produse Global!</h1>
+
 <div th:if="${!products.isEmpty()}" class="container productList">
 
     <p>Order by: </p>
@@ -79,7 +79,7 @@
                             data-ripple-color="primary"
                     >Edit<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <div th:if="${product.getBillings().isEmpty()}">
+                    <div th:if="${product.getProductBillings().isEmpty()}">
                         <a
                                 th:href="@{/deleteProduct(productId=${product.id})}"
                                 class="btn btn-link m-0 text-reset"
@@ -97,7 +97,7 @@
 </div>
 
 <div th:if="${products.size() == 4}" class=" container center-block">
-    <form th:action="@{/productsro}">
+    <form th:action="@{/productsgb}">
         <input type="hidden" th:name="userName" th:field="${user.userName}"/>
         <select th:name="sortBy">
             <option value="price">Price</option>

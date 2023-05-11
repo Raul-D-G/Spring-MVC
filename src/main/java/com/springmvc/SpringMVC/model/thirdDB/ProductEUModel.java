@@ -1,7 +1,5 @@
 package com.springmvc.SpringMVC.model.thirdDB;
 
-import com.springmvc.SpringMVC.model.secondDB.BillingROModel;
-import com.springmvc.SpringMVC.model.secondDB.CompanyROModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -11,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "products_ro")
+@Table(name = "products_eu")
 public class ProductEUModel {
 
     @Id
@@ -36,15 +34,15 @@ public class ProductEUModel {
 
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyROModel productCompany;
+    private CompanyEUModel productCompany;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-    private List<BillingROModel> billings;
+    private List<BillingEUModel> billings;
 
     public ProductEUModel() {
     }
 
-    public ProductEUModel(Integer id, String name, Float price, String category, CompanyROModel productCompany, List<BillingROModel> billings) {
+    public ProductEUModel(Integer id, String name, Float price, String category, CompanyEUModel productCompany, List<BillingEUModel> billings) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -85,31 +83,31 @@ public class ProductEUModel {
         this.category = category;
     }
 
-    public CompanyROModel getProductCompany() {
+    public CompanyEUModel getProductCompany() {
         return productCompany;
     }
 
-    public void setProductCompany(CompanyROModel productCompany) {
+    public void setProductCompany(CompanyEUModel productCompany) {
         this.productCompany = productCompany;
     }
 
-    public List<BillingROModel> getBillings() {
+    public List<BillingEUModel> getBillings() {
         return billings;
     }
 
-    public void setBillings(List<BillingROModel> billings) {
+    public void setBillings(List<BillingEUModel> billings) {
         this.billings = billings;
     }
 
-    public void removeBilling(BillingROModel billing) {
-        List<BillingROModel> billings = this.getBillings();
+    public void removeBilling(BillingEUModel billing) {
+        List<BillingEUModel> billings = this.getBillings();
         billings.remove(billing);
         this.setBillings(billings);
     }
 
     @Override
     public String toString() {
-        return "ProductROModel{" +
+        return "ProductEUModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +

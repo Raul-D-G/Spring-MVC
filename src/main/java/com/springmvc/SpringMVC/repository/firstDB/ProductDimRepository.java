@@ -1,12 +1,17 @@
 package com.springmvc.SpringMVC.repository.firstDB;
 
+import com.springmvc.SpringMVC.model.firstDB.CompanyDim;
 import com.springmvc.SpringMVC.model.firstDB.ProductDim;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface ProductDimRepository extends JpaRepository<ProductDim, Integer> {
+public interface ProductDimRepository extends PagingAndSortingRepository<ProductDim, Integer> {
+
+    List<ProductDim> findAllByProductCompany(CompanyDim companyDim, Pageable pageable);
 
 
     @Query(value = "SELECT category, name, price, FIRST_VALUE(name) " +

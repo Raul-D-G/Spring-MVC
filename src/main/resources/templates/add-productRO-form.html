@@ -1,0 +1,42 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/head :: head"></head>
+
+<body th:with="user=${user}">
+<div th:replace="layout/navbar :: navbar"></div>
+
+<div class="container">
+    <h3>Add New Product</h3>
+    <hr/>
+
+    <form th:action="@{/saveProductRO}" th:object="${product}" method="POST">
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <h4>All errors:</h4>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <input type="text" th:field="*{name}" th:errorclass="is-invalid" class="form-control col-4 mb-4"
+               placeholder="Enter Name"/>
+
+        <input type="number" min="0" th:field="*{price}" th:errorclass="is-invalid" step="0.01"
+               class="form-control col-4 mb-4"
+               placeholder="Enter price"/>
+
+        <label>Choose a category:</label>
+        <select class="form-control col-4 mb-4" th:errorclass="is-invalid" th:field="*{category}">
+            <option th:each="category : ${productCategory}" th:value="${category}" th:text="${category}"
+                    th:selected="${category==75}"></option>
+        </select>
+
+        <button type="submit" class="btn btn-primary col-2">Add product</button>
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{productCompany}"/>
+    </form>
+    <hr/>
+    <a th:href="@{/productsro(userName=${user.userName})}">Back to list</a>
+
+</div>
+
+</body>
+</html>

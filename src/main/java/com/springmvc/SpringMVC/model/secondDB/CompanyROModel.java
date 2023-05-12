@@ -43,8 +43,7 @@ public class CompanyROModel {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserROModel user;
 
-
-    @OneToMany(mappedBy = "productCompany")
+    @OneToMany(mappedBy = "productCompany", fetch = FetchType.EAGER)
     private Set<ProductROModel> products;
 
 

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRORepository extends JpaRepository<UserROModel, Integer> {
     UserROModel findUserROModelByUserName(String userName);
+
 }

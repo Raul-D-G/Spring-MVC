@@ -44,7 +44,7 @@ public class CompanyEUModel {
     private UserEUModel user;
 
 
-    @OneToMany(mappedBy = "productCompany")
+    @OneToMany(mappedBy = "productCompany", fetch = FetchType.EAGER)
     private Set<ProductEUModel> products;
 
 

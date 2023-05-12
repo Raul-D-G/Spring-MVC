@@ -1,7 +1,6 @@
 package com.springmvc.SpringMVC.controllers;
 
-import com.springmvc.SpringMVC.model.secondDB.ProductROModel;
-import com.springmvc.SpringMVC.model.secondDB.UserROModel;
+import com.springmvc.SpringMVC.model.thirdDB.CompanyEUModel;
 import com.springmvc.SpringMVC.model.thirdDB.ProductEUModel;
 import com.springmvc.SpringMVC.model.thirdDB.UserEUModel;
 import com.springmvc.SpringMVC.repository.thirdDB.BillingEURepository;
@@ -16,13 +15,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.springmvc.SpringMVC.controllers.SecureRandomLocal.generateRandomId;
 
 @Controller
 public class ProductEUController {
@@ -46,12 +53,11 @@ public class ProductEUController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductEUController.class);
 
-//    // Annotation
-//    @ModelAttribute("productCategory")
-//    public List<String> educationDetailsList() {
-//        return Arrays.asList(
-//                "Made in Romania.", "Made in UE.");
-//    }
+    // Annotation
+    @ModelAttribute("productCategory")
+    public List<String> educationDetailsList() {
+        return List.of("Made in UE.");
+    }
 
     @GetMapping("/productseu")
     public String products(@RequestParam(value = "userName") String userName, @RequestParam(value = "page", required = false) Optional<Integer> page, @RequestParam(value = "sortBy", required = false) Optional<String> sortBy, final Model model) {
@@ -91,45 +97,47 @@ public class ProductEUController {
         return "productEUList";
     }
 
-//    @GetMapping("/addProductForm")
-//    public ModelAndView addProductForm(@RequestParam String userName) {
-//        ModelAndView mav = new ModelAndView("add-product-form");
-//
-//        UserModel user = userRepository.findUserModelByUserName(userName);
-//        CompanyModel company = companyRepository.findById(user.getCompany().getId()).get();
-//
-//        ProductModel newProduct = new ProductModel();
-//        newProduct.setProductCompany(company);
-//
-//        company.addProduct(newProduct);
-//
-//        mav.addObject("product", newProduct);
-//        mav.addObject("user", user);
-//        return mav;
-//    }
-//
-//    @PostMapping("/saveProduct")
-//    public String saveProduct(@Valid @ModelAttribute("product") ProductModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("product", product);
-//            model.addAttribute("user", product.getProductCompany().getUser());
-//            return "add-product-form";
-//        }
-//
-//        try {
-//            productService.createProduct(product);
-//            logger.info("The following product has been added " + product + "by user: " + session.getAttribute("userName"));
-//
-//        } catch (Exception e) {
-//            bindingResult.rejectValue("userName", "401", e.getMessage());
-//            model.addAttribute("product", product);
-//            return "add-product-form";
-//        }
-//        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
-//
-//        return "redirect:/products";
-//    }
-//
+    @GetMapping("/addEUProductForm")
+    public ModelAndView addEUProductForm(@RequestParam String userName) {
+        ModelAndView mav = new ModelAndView("add-productEU-form");
+
+        UserEUModel user = userRepository.findUserEUModelByUserName(userName);
+        CompanyEUModel company = companyRepository.findById(user.getCompany().getId()).get();
+
+        ProductEUModel newProduct = new ProductEUModel();
+        newProduct.setId(generateRandomId());
+        newProduct.setProductCompany(company);
+
+        company.addProduct(newProduct);
+
+        mav.addObject("product", newProduct);
+        mav.addObject("user", user);
+        return mav;
+    }
+
+    @PostMapping("/saveProductEU")
+    public String saveProduct(@Valid @ModelAttribute("product") ProductEUModel product, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
+            model.addAttribute("user", product.getProductCompany().getUser());
+            return "add-productEU-form";
+        }
+
+        try {
+            productRepository.save(product);
+            logger.info("The following product has been added " + product + "by user: " + session.getAttribute("userName"));
+
+        } catch (Exception e) {
+            bindingResult.rejectValue("userName", "401", e.getMessage());
+            model.addAttribute("product", product);
+            return "add-productEU-form";
+        }
+        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
+
+        return "redirect:/productseu";
+    }
+
+    //
 //    @GetMapping("/showUpdateForm")
 //    public ModelAndView showUpdateForm(@RequestParam Integer productId) {
 //        ModelAndView mav = new ModelAndView("add-product-form");
@@ -142,15 +150,15 @@ public class ProductEUController {
 //        return mav;
 //    }
 //
-//    @GetMapping("/deleteProduct")
-//    public String deleteProduct(@RequestParam Integer productId, RedirectAttributes redirectAttributes) {
-//
-//        ProductModel product = productRepository.findById(productId).get();
-//        product.setProductCompany(null);
-//        product.setBillings(null);
-//        productRepository.deleteById(productId);
-//        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
-//
-//        return "redirect:/products";
-//    }
+    @GetMapping("/deleteProductEU")
+    public String deleteProduct(@RequestParam Integer productId, RedirectAttributes redirectAttributes) {
+
+        ProductEUModel product = productRepository.findById(productId).get();
+        product.setProductCompany(null);
+        product.setBillings(null);
+        productRepository.deleteById(productId);
+        redirectAttributes.addAttribute("userName", session.getAttribute("userName").toString());
+
+        return "redirect:/productseu";
+    }
 }
